@@ -130,11 +130,10 @@
         /* Nav */
         nav {
             position: sticky;
-            top: 0;
-            background: var(--nav-bg);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            padding: 1.25rem 0;
+            top: 1rem;
+            background: transparent;
+            border-bottom: none;
+            padding: 0.6rem 0;
             z-index: 1000;
         }
 
@@ -142,6 +141,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: var(--nav-bg);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 0.75rem 1.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25);
         }
 
         .logo img {
@@ -316,14 +321,104 @@
             font-size: clamp(1.2rem, 2.2vw, 1.5rem);
             color: var(--gray);
             max-width: 720px;
-            margin-bottom: 3.5rem;
+            margin-bottom: 2.25rem;
             line-height: 1.7;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-vignette {
+            display: grid;
+            gap: 1.25rem;
+            max-width: 420px;
+            margin-left: auto;
+        }
+
+        .hero-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.25rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue), var(--orange));
+            opacity: 0.9;
+        }
+
+        .hero-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-metric-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--gray);
+        }
+
+        .hero-metric-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.75rem;
+            line-height: 1;
+            margin: 0.5rem 0;
+            color: var(--light);
+        }
+
+        .hero-metric-caption {
+            font-size: 0.95rem;
+            color: var(--gray);
+        }
+
+        .hero-chat-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            font-weight: 700;
+            color: var(--gray);
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-chat .chat-mock {
+            margin: 0;
+            padding: 0.75rem;
+        }
+
+        .hero-chat .chat-bubble {
+            font-size: 0.85rem;
         }
 
         .hero-cta {
             display: flex;
             gap: 1.25rem;
             flex-wrap: wrap;
+        }
+
+        @media (max-width: 968px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-vignette {
+                margin-left: 0;
+                max-width: 100%;
+            }
         }
 
         .btn {
@@ -414,6 +509,7 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .feature-block::before {
@@ -424,6 +520,44 @@
             width: 100%;
             height: 4px;
             background: linear-gradient(90deg, var(--blue), var(--orange));
+        }
+
+        .feature-block::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .feature-block > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-block.tone-blue::before {
+            background: linear-gradient(90deg, rgba(96, 165, 250, 0.95), rgba(96, 165, 250, 0.2));
+        }
+
+        .feature-block.tone-blue::after {
+            background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.12), transparent 60%);
+        }
+
+        .feature-block.tone-orange::before {
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.95), rgba(255, 107, 53, 0.2));
+        }
+
+        .feature-block.tone-orange::after {
+            background: radial-gradient(circle at top right, rgba(255, 107, 53, 0.12), transparent 60%);
+        }
+
+        .feature-block:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+        }
+
+        .feature-block:hover::after {
+            opacity: 1;
         }
 
         .feature-number {
@@ -442,6 +576,10 @@
             font-size: 1.5rem;
             margin-bottom: 0.75rem;
             color: var(--blue);
+        }
+
+        .feature-block.tone-orange h3 {
+            color: var(--orange);
         }
 
         .feature-example {
@@ -481,6 +619,11 @@
             justify-self: flex-start;
         }
 
+        .feature-block.tone-orange .chat-bubble-user {
+            background: rgba(255, 107, 53, 0.14);
+            border-color: rgba(255, 107, 53, 0.35);
+        }
+
         .chat-bubble-agent {
             background: var(--card);
             border: 1px solid var(--border);
@@ -489,18 +632,18 @@
         }
 
         .chat-bubble-internal {
-            background: rgba(255, 107, 53, 0.08);
-            border: 1px dashed rgba(255, 107, 53, 0.4);
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px dashed rgba(96, 165, 250, 0.45);
             color: var(--light);
             justify-self: flex-end;
         }
 
         .chat-bubble-internal .chat-agent-name {
-            color: var(--orange);
+            color: var(--blue);
         }
 
         .chat-bubble-internal .chat-meta {
-            color: var(--orange);
+            color: var(--blue);
             opacity: 0.85;
         }
 
@@ -618,10 +761,46 @@
             transition: opacity 0.2s ease;
         }
 
+        .integration-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            opacity: 0.9;
+        }
+
+        .integration-item > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .integration-item.tone-blue::after {
+            background: linear-gradient(90deg, rgba(96, 165, 250, 0.9), rgba(96, 165, 250, 0.2));
+        }
+
+        .integration-item.tone-blue::before {
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.08) 0%, transparent 55%);
+        }
+
+        .integration-item.tone-orange::after {
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.95), rgba(255, 107, 53, 0.2));
+        }
+
+        .integration-item.tone-orange::before {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, transparent 55%);
+        }
+
         .integration-item:hover {
             border-color: var(--blue);
             transform: translateY(-3px);
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(96, 165, 250, 0.1);
+        }
+
+        .integration-item.tone-orange:hover {
+            border-color: rgba(255, 107, 53, 0.9);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 107, 53, 0.18);
         }
 
         .integration-item:hover::before {
@@ -1012,18 +1191,38 @@
     </nav>
 
     <section class="hero">
-        <div class="container">
-            <h1 class="fade-in">
-                <span data-i18n="hero.title.line1">Müşterileriniz yazar.</span><br>
-                <span class="blue" data-i18n="hero.title.line2">Yapay zeka yanıtlar.</span><br>
-                <span class="orange" data-i18n="hero.title.line3">Anında.</span>
-            </h1>
-            <p class="hero-subtitle fade-in" data-i18n="hero.subtitle">
-                WhatsApp, e-posta, her kanal. İşinizi, stoklarınızı, takviminizi bilen tek bir yapay zeka. Siz uyurken müşteri konuşmalarının %94'ünü yönetir.
-            </p>
-            <div class="hero-cta fade-in">
-                <a href="#pricing" class="btn btn-primary" data-i18n="hero.cta.primary">Canlı Demo</a>
-                <a href="#features" class="btn btn-secondary" data-i18n="hero.cta.secondary">Nasıl Çalışır?</a>
+        <div class="container hero-grid">
+            <div>
+                <h1 class="fade-in">
+                    <span data-i18n="hero.title.line1">Müşterileriniz yazar.</span><br>
+                    <span class="blue" data-i18n="hero.title.line2">Yapay zeka yanıtlar.</span><br>
+                    <span class="orange" data-i18n="hero.title.line3">Anında.</span>
+                </h1>
+                <p class="hero-subtitle fade-in" data-i18n="hero.subtitle">
+                    WhatsApp, e-posta, her kanal. İşinizi, stoklarınızı, takviminizi bilen tek bir yapay zeka. Siz uyurken müşteri konuşmalarının %94'ünü yönetir.
+                </p>
+                <div class="hero-cta fade-in">
+                    <a href="#pricing" class="btn btn-primary" data-i18n="hero.cta.primary">Canlı Demo</a>
+                    <a href="#features" class="btn btn-secondary" data-i18n="hero.cta.secondary">Nasıl Çalışır?</a>
+                </div>
+            </div>
+            <div class="hero-vignette fade-in">
+                <div class="hero-card hero-chat">
+                    <div class="hero-chat-title" data-i18n="hero.vignette.chatLabel">Canlı Örnek</div>
+                    <div class="chat-mock" data-i18n="hero.vignette.chat" data-i18n-html="true">
+                        <div class="chat-bubble chat-bubble-user">Merhaba, randevu alabilir miyim?</div>
+                        <div class="chat-bubble chat-bubble-agent">
+                            <div class="chat-agent-name">Raven AI</div>
+                            Merhaba Ayşe! Yarın 15:00 için uygun saat var. Onaylıyor musunuz?
+                            <div class="chat-meta">WhatsApp • şimdi</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-card">
+                    <div class="hero-metric-label" data-i18n="hero.vignette.metricLabel">Ort. Yanıt</div>
+                    <div class="hero-metric-value" data-i18n="hero.vignette.metricValue">1.8 sn</div>
+                    <div class="hero-metric-caption" data-i18n="hero.vignette.metricCaption">İnsan devri sadece kritik anlarda.</div>
+                </div>
             </div>
         </div>
     </section>
@@ -1039,7 +1238,7 @@
             </div>
 
             <div class="feature-showcase">
-                <div class="feature-block">
+                <div class="feature-block tone-blue">
                     <span class="feature-number">01</span>
                     <h3 data-i18n="features.order.title">Müşteri: "Siparişim nerede?"</h3>
                     <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.order.desc">
@@ -1057,7 +1256,7 @@
                 </div>
 
                 <div class="two-col">
-                    <div class="feature-block">
+                    <div class="feature-block tone-orange">
                         <span class="feature-number">02</span>
                         <h3 data-i18n="features.reservation.title">Restoran rezervasyonu</h3>
                         <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.reservation.desc">
@@ -1074,7 +1273,7 @@
                         <span class="feature-stat" data-i18n="features.reservation.stat">%92 rezervasyon insan dokunuşu olmadan</span>
                     </div>
 
-                    <div class="feature-block">
+                    <div class="feature-block tone-blue">
                         <span class="feature-number">03</span>
                         <h3 data-i18n="features.appointment.title">Hastane randevusu</h3>
                         <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.appointment.desc">
@@ -1092,7 +1291,7 @@
                     </div>
                 </div>
 
-                <div class="feature-block">
+                <div class="feature-block tone-orange">
                     <span class="feature-number">04</span>
                     <h3 data-i18n="features.escalation.title">Ne zaman duracağını bilir</h3>
                     <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.escalation.desc">
@@ -1117,7 +1316,7 @@
                 </div>
 
                 <div class="two-col">
-                    <div class="feature-block">
+                    <div class="feature-block tone-blue">
                         <span class="feature-number">05</span>
                         <h3 data-i18n="features.dashboard.title">Her şey tek yerde</h3>
                         <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.dashboard.desc">
@@ -1131,7 +1330,7 @@
                         <span class="feature-stat" data-i18n="features.dashboard.stat">Tek panel. Sıfır uygulama değişimi.</span>
                     </div>
 
-                    <div class="feature-block">
+                    <div class="feature-block tone-orange">
                         <span class="feature-number">06</span>
                         <h3 data-i18n="features.workflows.title">İş akışlarınız, bizimkiler değil</h3>
                         <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.workflows.desc">
@@ -1162,25 +1361,25 @@
             <div class="integration-category">
                 <span class="integration-category-label" data-i18n="integrations.channels">İletişim Kanalları</span>
                 <div class="integration-grid">
-                    <div class="integration-item">
+                    <div class="integration-item tone-blue">
                         <div class="integration-icon">
                             <img src="assets/channels/whatsapp.png" alt="WhatsApp" data-i18n-attr="alt:integrations.whatsapp.alt">
                         </div>
                         <h4 data-i18n="integrations.whatsapp.label">WhatsApp</h4>
                     </div>
-                    <div class="integration-item">
+                    <div class="integration-item tone-orange">
                         <div class="integration-icon">
                             <img src="assets/channels/email.png" alt="Email" data-i18n-attr="alt:integrations.email.alt">
                         </div>
                         <h4 data-i18n="integrations.email.label">E-posta</h4>
                     </div>
-                    <div class="integration-item">
+                    <div class="integration-item tone-blue">
                         <div class="integration-icon">
                             <img src="assets/channels/website.png" alt="Canlı Sohbet" data-i18n-attr="alt:integrations.chat.alt">
                         </div>
                         <h4 data-i18n="integrations.chat.label">Canlı Sohbet</h4>
                     </div>
-                    <div class="integration-item">
+                    <div class="integration-item tone-orange">
                         <div class="integration-icon">
                             <img src="assets/integrations/slack.png" alt="Slack" data-i18n-attr="alt:integrations.slack.alt">
                         </div>
@@ -1192,13 +1391,13 @@
             <div class="integration-category">
                 <span class="integration-category-label" data-i18n="integrations.platforms">Platformlar & Sistemler</span>
                 <div class="integration-grid">
-                    <div class="integration-item">
+                    <div class="integration-item tone-blue">
                         <div class="integration-icon">
                             <img src="assets/integrations/shopify.png" alt="Shopify" data-i18n-attr="alt:integrations.shopify.alt">
                         </div>
                         <h4 data-i18n="integrations.shopify.label">Shopify</h4>
                     </div>
-                    <div class="integration-item">
+                    <div class="integration-item tone-orange">
                         <div class="integration-icon">
                             <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect width="120" height="40" rx="8" fill="#1a1a1a"/>
@@ -1207,7 +1406,7 @@
                         </div>
                         <h4 data-i18n="integrations.ikas.label">ikas</h4>
                     </div>
-                    <div class="integration-item">
+                    <div class="integration-item tone-blue">
                         <div class="integration-icon">
                             <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect width="64" height="64" rx="12" fill="#60a5fa"/>
@@ -1218,7 +1417,7 @@
                         </div>
                         <h4 data-i18n="integrations.booking.label">Randevu</h4>
                     </div>
-                    <div class="integration-item">
+                    <div class="integration-item tone-orange">
                         <div class="integration-icon">
                             <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect width="64" height="64" rx="12" fill="#ff6b35"/>
@@ -1229,7 +1428,7 @@
                         </div>
                         <h4 data-i18n="integrations.emr.label">Hastane EMR</h4>
                     </div>
-                    <div class="integration-item">
+                    <div class="integration-item tone-blue">
                         <div class="integration-icon">
                             <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect width="64" height="64" rx="12" fill="#60a5fa"/>
@@ -1464,6 +1663,13 @@
                     cta: {
                         primary: 'Canlı Demo',
                         secondary: 'Nasıl Çalışır??'
+                    },
+                    vignette: {
+                        chatLabel: 'Canlı Örnek',
+                        chat: '<div class="chat-bubble chat-bubble-user">Merhaba, randevu alabilir miyim?</div><div class="chat-bubble chat-bubble-agent"><div class="chat-agent-name">Raven AI</div>Merhaba Ayşe! Yarın 15:00 için uygun saat var. Onaylıyor musunuz?<div class="chat-meta">WhatsApp • şimdi</div></div>',
+                        metricLabel: 'Ort. Yanıt',
+                        metricValue: '1.8 sn',
+                        metricCaption: 'İnsan devri sadece kritik anlarda.'
                     }
                 },
                 features: {
@@ -1672,6 +1878,13 @@
                     cta: {
                         primary: 'See It In Action',
                         secondary: 'How It Works'
+                    },
+                    vignette: {
+                        chatLabel: 'Live Sample',
+                        chat: '<div class="chat-bubble chat-bubble-user">Hi, can I book an appointment?</div><div class="chat-bubble chat-bubble-agent"><div class="chat-agent-name">Raven AI</div>Hi Emma! I have a slot tomorrow at 3:00 PM. Should I confirm?<div class="chat-meta">WhatsApp • now</div></div>',
+                        metricLabel: 'Avg Reply',
+                        metricValue: '1.8s',
+                        metricCaption: 'Human handoff only when it matters.'
                     }
                 },
                 features: {
