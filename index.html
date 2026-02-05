@@ -366,12 +366,12 @@
 
         /* What It Does - Editorial Style */
         .what-it-does {
-            padding: 9rem 0;
+            padding: 6.5rem 0;
             border-top: 1px solid var(--border);
         }
 
         .section-intro {
-            margin-bottom: 5rem;
+            margin-bottom: 3.25rem;
         }
 
         .section-label {
@@ -403,14 +403,14 @@
         /* Feature Showcase - Magazine Layout */
         .feature-showcase {
             display: grid;
-            gap: 2.5rem;
+            gap: 1.75rem;
         }
 
         .feature-block {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 3.5rem;
+            padding: 2.5rem;
             position: relative;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
@@ -428,7 +428,7 @@
 
         .feature-number {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 5.5rem;
+            font-size: 4.25rem;
             font-weight: 700;
             color: rgba(96, 165, 250, 0.08);
             position: absolute;
@@ -439,8 +439,8 @@
 
         .feature-block h3 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.65rem;
-            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
             color: var(--blue);
         }
 
@@ -448,12 +448,76 @@
             background: var(--code-surface);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
+            padding: 1.25rem;
+            margin: 1.1rem 0;
             font-family: 'Monaco', 'Courier New', monospace;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--gray);
             position: relative;
+        }
+
+        .chat-mock {
+            background: var(--code-surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1rem;
+            display: grid;
+            gap: 0.75rem;
+            margin: 1.1rem 0;
+        }
+
+        .chat-bubble {
+            padding: 0.75rem 1rem;
+            border-radius: 16px;
+            max-width: 85%;
+            line-height: 1.45;
+            font-size: 0.95rem;
+        }
+
+        .chat-bubble-user {
+            background: rgba(96, 165, 250, 0.15);
+            border: 1px solid rgba(96, 165, 250, 0.35);
+            color: var(--light);
+            justify-self: flex-start;
+        }
+
+        .chat-bubble-agent {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--light);
+            justify-self: flex-end;
+        }
+
+        .chat-bubble-internal {
+            background: rgba(255, 107, 53, 0.08);
+            border: 1px dashed rgba(255, 107, 53, 0.4);
+            color: var(--light);
+            justify-self: flex-end;
+        }
+
+        .chat-bubble-internal .chat-agent-name {
+            color: var(--orange);
+        }
+
+        .chat-bubble-internal .chat-meta {
+            color: var(--orange);
+            opacity: 0.85;
+        }
+
+        .chat-agent-name {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--gray);
+            margin-bottom: 0.35rem;
+            font-weight: 600;
+        }
+
+        .chat-meta {
+            font-size: 0.7rem;
+            color: var(--gray);
+            margin-top: 0.35rem;
+            text-align: right;
         }
 
         .feature-example::before {
@@ -490,46 +554,95 @@
             background: var(--darker);
         }
 
+        .integrations .section-intro {
+            text-align: center;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .integrations .section-title {
+            background: linear-gradient(135deg, var(--light) 0%, var(--gray) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .integration-category {
+            margin-bottom: 3rem;
+        }
+
+        .integration-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .integration-category-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--gray);
+            margin-bottom: 1.25rem;
+            padding-left: 0.25rem;
+        }
+
         .integration-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
         }
 
         .integration-item {
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 2.25rem 1.5rem;
+            border-radius: 16px;
+            padding: 1.75rem 1.25rem;
             text-align: center;
             transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
             cursor: pointer;
-            min-height: 140px;
+            min-height: 120px;
             display: flex;
             flex-direction: column;
+            align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .integration-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.03) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
 
         .integration-item:hover {
             border-color: var(--blue);
-            transform: translateY(-2px);
-            background: rgba(96, 165, 250, 0.06);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(96, 165, 250, 0.1);
+        }
+
+        .integration-item:hover::before {
+            opacity: 1;
         }
 
         .integration-item h4 {
             font-weight: 600;
-            font-size: 1rem;
-            margin-top: 1rem;
+            font-size: 0.9rem;
+            margin-top: 0.875rem;
+            color: var(--light);
+            position: relative;
         }
 
         .integration-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto;
+            width: 52px;
+            height: 52px;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         .integration-icon img {
@@ -921,7 +1034,7 @@
                 <span class="section-label" data-i18n="features.label">Gerçekte Ne Yapar</span>
                 <h2 class="section-title" data-i18n="features.title">Sohbet değil. Tam otomasyon.</h2>
                 <p class="section-desc" data-i18n="features.desc">
-                    Gerçek işletmelerden gerçek örnekler. Jargon yok; müşteriler yazdığında gerçekten olanlar var.
+                    Kısa senaryolar. Gerçek sonuçlar. Müşteri yazdığında neler olduğunu görün.
                 </p>
             </div>
 
@@ -932,8 +1045,13 @@
                     <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.order.desc">
                         Yapay zeka Shopify/ikas mağazanızı kontrol eder, #4521 siparişini bulur, DHL ile yolda olduğunu görür ve takip bilgisini getirir.
                     </p>
-                    <div class="feature-example" data-i18n="features.order.example">
-                        "Merhaba Sarah! #4521 numaralı siparişiniz dün DHL ile yola çıktı. Takip kodu: DHL892... Tahmini teslimat: Yarın 17:00'ye kadar. Başka yardımcı olabilir miyim?"
+                    <div class="chat-mock" data-i18n="features.order.chat" data-i18n-html="true">
+                        <div class="chat-bubble chat-bubble-user">Merhaba, 4521 numaralı siparişim ne durumda?</div>
+                        <div class="chat-bubble chat-bubble-agent">
+                            <div class="chat-agent-name">Raven AI</div>
+                            Merhaba Mehmet! 4521 numaralı siparişiniz dün DHL ile kargoya verildi. Takip kodu: DHL892. Tahmini teslimat: Yarın 17:00'ye kadar.
+                            <div class="chat-meta">WhatsApp • 1 dk önce</div>
+                        </div>
                     </div>
                     <span class="feature-stat" data-i18n="features.order.stat">Ortalama yanıt süresi: 1,8 saniye</span>
                 </div>
@@ -945,8 +1063,13 @@
                         <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.reservation.desc">
                             Müşteri "yarın 20:00'de 4 kişilik masa" yazar
                         </p>
-                        <div class="feature-example" data-i18n="features.reservation.example">
-                            "Harika! 6 Şubat saat 20:00 için 4 kişilik 7 numaralı masayı Mehmet adına ayırdım. Onay e-postanıza gönderildi."
+                        <div class="chat-mock" data-i18n="features.reservation.chat" data-i18n-html="true">
+                            <div class="chat-bubble chat-bubble-user">Yarın 20:00 için 4 kişilik masa ayırtabilir miyiz?</div>
+                            <div class="chat-bubble chat-bubble-agent">
+                                <div class="chat-agent-name">Raven AI</div>
+                                Harika! 6 Şubat 20:00 için 4 kişilik 7 numaralı masayı Mehmet adına ayırdım. Onay bilgisi iletildi.
+                                <div class="chat-meta">WhatsApp • 1 dk önce</div>
+                            </div>
                         </div>
                         <span class="feature-stat" data-i18n="features.reservation.stat">%92 rezervasyon insan dokunuşu olmadan</span>
                     </div>
@@ -957,8 +1080,13 @@
                         <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.appointment.desc">
                             "Gelecek hafta Dr. Yılmaz'dan randevu almak istiyorum"
                         </p>
-                        <div class="feature-example" data-i18n="features.appointment.example">
-                            "Dr. Yılmaz'ın müsait saatleri: Pazartesi 14:00, Çarşamba 10:00, Perşembe 16:00. Hangisi size uygun?"
+                        <div class="chat-mock" data-i18n="features.appointment.chat" data-i18n-html="true">
+                            <div class="chat-bubble chat-bubble-user">Gelecek hafta Dr. Yılmaz'ı görmek istiyorum.</div>
+                            <div class="chat-bubble chat-bubble-agent">
+                                <div class="chat-agent-name">Raven AI</div>
+                                Dr. Yılmaz'ın müsait saatleri: Pazartesi 14:00, Çarşamba 10:00, Perşembe 16:00. Hangisi size uygun?
+                                <div class="chat-meta">WhatsApp • 2 dk önce</div>
+                            </div>
                         </div>
                         <span class="feature-stat" data-i18n="features.appointment.stat">Her türlü randevu sistemine bağlanır</span>
                     </div>
@@ -970,135 +1098,152 @@
                     <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.escalation.desc">
                         Müşteri: "Hasarlı ürün geldi ve bu durumdan çok rahatsızım"
                     </p>
-                    <div class="feature-example" data-i18n="features.escalation.example" data-i18n-html="true">
-                        [Yapay zeka ekibe] "İnsan desteğine aktarılıyor - hasar şikayeti + yoğun duygu algılandı"<br>
-                        [Yapay zeka müşteriye] "Sizi hemen destek uzmanımıza bağlıyorum - konunuza şimdi bakacak."
+                    <div class="chat-mock" data-i18n="features.escalation.chat" data-i18n-html="true">
+                        <div class="chat-bubble chat-bubble-user">Hasarlı ürün geldi ve bu durumdan çok rahatsızım.</div>
+                        <div class="chat-bubble chat-bubble-agent">
+                            <div class="chat-agent-name">Raven AI</div>
+                            Sizi hemen destek uzmanımıza bağlıyorum. Konunuzla şimdi ilgilenecekler.
+                            <div class="chat-meta">WhatsApp • 1 dk önce</div>
+                        </div>
+                        <div class="chat-bubble chat-bubble-internal">
+                            <div class="chat-agent-name">Raven AI → Ekip</div>
+                            İnsan desteğine aktarılıyor — hasar şikayeti + yoğun duygu algılandı.
+                            <div class="chat-meta">İç not</div>
+                        </div>
                     </div>
                     <p style="color: var(--gray); margin-top: 1rem;" data-i18n="features.escalation.followup">
                         Tüm konuşma geçmişi aktarılır. Ekibiniz "Size nasıl yardımcı olabilirim?" demeden bağlamı bilerek devralır.
                     </p>
                 </div>
 
-                <div class="feature-block">
-                    <span class="feature-number">05</span>
-                    <h3 data-i18n="features.dashboard.title">Her şey tek yerde</h3>
-                    <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.dashboard.desc">
-                        Ekibiniz tüm konuşmaları—WhatsApp, e-posta, canlı sohbet—birleşik CRM panelimiz Raven\'da görür.
-                    </p>
-                    <ul style="margin-top: 1.5rem; color: var(--gray); line-height: 2;">
+                <div class="two-col">
+                    <div class="feature-block">
+                        <span class="feature-number">05</span>
+                        <h3 data-i18n="features.dashboard.title">Her şey tek yerde</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.dashboard.desc">
+                            Ekibiniz tüm konuşmaları—WhatsApp, e-posta, canlı sohbet—birleşik CRM panelimiz Raven\'da görür.
+                        </p>
+                    <ul style="margin-top: 1.2rem; color: var(--gray); line-height: 1.8;">
                         <li data-i18n="features.dashboard.list1">→ Tüm kanallarda müşteri geçmişi</li>
                         <li data-i18n="features.dashboard.list2">→ Yapay zeka performans metrikleri</li>
                         <li data-i18n="features.dashboard.list3">→ İstediğiniz konuşmaya anında katılın</li>
-                        <li data-i18n="features.dashboard.list4">→ Yapay zekanın çözdüklerini ve yönlendirdiklerini görün</li>
                     </ul>
-                    <span class="feature-stat" data-i18n="features.dashboard.stat">Tek panel. Sıfır uygulama değişimi.</span>
-                </div>
+                        <span class="feature-stat" data-i18n="features.dashboard.stat">Tek panel. Sıfır uygulama değişimi.</span>
+                    </div>
 
-                <div class="feature-block">
-                    <span class="feature-number">06</span>
-                    <h3 data-i18n="features.workflows.title">İş akışlarınız, bizimkiler değil</h3>
-                    <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.workflows.desc">
-                        İstediğiniz otomasyonu oluşturun. Kod gerekmez. Örnekler:
-                    </p>
-                    <ul style="margin-top: 1.5rem; color: var(--gray); line-height: 2;">
+                    <div class="feature-block">
+                        <span class="feature-number">06</span>
+                        <h3 data-i18n="features.workflows.title">İş akışlarınız, bizimkiler değil</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.workflows.desc">
+                            İstediğiniz otomasyonu oluşturun. Kod gerekmez. Örnekler:
+                        </p>
+                    <ul style="margin-top: 1.2rem; color: var(--gray); line-height: 1.8;">
                         <li data-i18n="features.workflows.list1">→ Stok kontrolü → İlgili ürün önerisi → Siparişi işle</li>
                         <li data-i18n="features.workflows.list2">→ Potansiyel müşteriyi nitelendir → Demo planla → CRM'e ekle → Satış ekibine e-posta gönder</li>
                         <li data-i18n="features.workflows.list3">→ Belirtileri topla → Uygun saatleri bul → Randevu oluştur → Hazırlık bilgisi gönder</li>
-                        <li data-i18n="features.workflows.list4">→ Sadakat puanlarını kontrol et → İndirim uygula → Rezervasyonu onayla → Yol tarifi gönder</li>
                     </ul>
-                    <span class="feature-stat" data-i18n="features.workflows.stat">Sınırsız özel iş akışı dahil</span>
+                        <span class="feature-stat" data-i18n="features.workflows.stat">Sınırsız özel iş akışı dahil</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="integrations" id="integrations">
+<section class="integrations" id="integrations">
         <div class="container">
             <div class="section-intro">
                 <span class="section-label" data-i18n="integrations.label">Entegrasyonlar</span>
-                <h2 class="section-title" data-i18n="integrations.title">Her şeye bağlanır</h2>
-                <p class="section-desc" data-i18n="integrations.desc">
-                    E-ticaretiniz, randevu sisteminiz, CRM’iniz, ne varsa. API’si varsa bağlanırız.
+                <h2 class="section-title" data-i18n="integrations.title">Tüm sistemlerinizle uyumlu</h2>
+                <p class="section-desc" style="margin-left: auto; margin-right: auto;" data-i18n="integrations.desc">
+                    E-ticaret, randevu, CRM, POS—API'si olan her şeye bağlanırız.
                 </p>
             </div>
 
-            <div class="integration-grid">
-                <div class="integration-item">
-                    <div class="integration-icon">
-                        <img src="assets/channels/whatsapp.png" alt="WhatsApp" data-i18n-attr="alt:integrations.whatsapp.alt">
+            <div class="integration-category">
+                <span class="integration-category-label" data-i18n="integrations.channels">İletişim Kanalları</span>
+                <div class="integration-grid">
+                    <div class="integration-item">
+                        <div class="integration-icon">
+                            <img src="assets/channels/whatsapp.png" alt="WhatsApp" data-i18n-attr="alt:integrations.whatsapp.alt">
+                        </div>
+                        <h4 data-i18n="integrations.whatsapp.label">WhatsApp</h4>
                     </div>
-                    <h4 data-i18n="integrations.whatsapp.label">WhatsApp</h4>
+                    <div class="integration-item">
+                        <div class="integration-icon">
+                            <img src="assets/channels/email.png" alt="Email" data-i18n-attr="alt:integrations.email.alt">
+                        </div>
+                        <h4 data-i18n="integrations.email.label">E-posta</h4>
+                    </div>
+                    <div class="integration-item">
+                        <div class="integration-icon">
+                            <img src="assets/channels/website.png" alt="Canlı Sohbet" data-i18n-attr="alt:integrations.chat.alt">
+                        </div>
+                        <h4 data-i18n="integrations.chat.label">Canlı Sohbet</h4>
+                    </div>
+                    <div class="integration-item">
+                        <div class="integration-icon">
+                            <img src="assets/integrations/slack.png" alt="Slack" data-i18n-attr="alt:integrations.slack.alt">
+                        </div>
+                        <h4 data-i18n="integrations.slack.label">Slack</h4>
+                    </div>
                 </div>
-                <div class="integration-item">
-                    <div class="integration-icon">
-                        <img src="assets/channels/email.png" alt="Email" data-i18n-attr="alt:integrations.email.alt">
+            </div>
+
+            <div class="integration-category">
+                <span class="integration-category-label" data-i18n="integrations.platforms">Platformlar & Sistemler</span>
+                <div class="integration-grid">
+                    <div class="integration-item">
+                        <div class="integration-icon">
+                            <img src="assets/integrations/shopify.png" alt="Shopify" data-i18n-attr="alt:integrations.shopify.alt">
+                        </div>
+                        <h4 data-i18n="integrations.shopify.label">Shopify</h4>
                     </div>
-                    <h4 data-i18n="integrations.email.label">E-posta</h4>
-                </div>
-                <div class="integration-item">
-                    <div class="integration-icon">
-                        <img src="assets/channels/website.png" alt="Canlı Sohbet" data-i18n-attr="alt:integrations.chat.alt">
+                    <div class="integration-item">
+                        <div class="integration-icon">
+                            <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="120" height="40" rx="8" fill="#1a1a1a"/>
+                                <text x="60" y="26" font-family="DM Sans, sans-serif" font-size="18" font-weight="700" fill="#60a5fa" text-anchor="middle">ikas</text>
+                            </svg>
+                        </div>
+                        <h4 data-i18n="integrations.ikas.label">ikas</h4>
                     </div>
-                    <h4 data-i18n="integrations.chat.label">Canlı Sohbet</h4>
-                </div>
-                <div class="integration-item">
-                    <div class="integration-icon">
-                        <img src="assets/integrations/shopify.png" alt="Shopify" data-i18n-attr="alt:integrations.shopify.alt">
+                    <div class="integration-item">
+                        <div class="integration-icon">
+                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="64" height="64" rx="12" fill="#60a5fa"/>
+                                <path d="M20 16h24v4H20v-4zm0 8h24v4H20v-4zm0 8h16v4H20v-4z" fill="white"/>
+                                <circle cx="46" cy="44" r="8" fill="#ff6b35"/>
+                                <path d="M46 40v8M42 44h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h4 data-i18n="integrations.booking.label">Randevu</h4>
                     </div>
-                    <h4 data-i18n="integrations.shopify.label">Shopify</h4>
-                </div>
-                <div class="integration-item">
-                    <div class="integration-icon">
-                        <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="120" height="40" rx="8" fill="#1a1a1a"/>
-                            <text x="60" y="26" font-family="DM Sans, sans-serif" font-size="18" font-weight="700" fill="#60a5fa" text-anchor="middle">ikas</text>
-                        </svg>
+                    <div class="integration-item">
+                        <div class="integration-icon">
+                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="64" height="64" rx="12" fill="#ff6b35"/>
+                                <path d="M32 16l8 8-8 8-8-8 8-8z" fill="white"/>
+                                <rect x="24" y="36" width="16" height="12" rx="2" fill="white"/>
+                                <circle cx="32" cy="26" r="3" fill="#ff6b35"/>
+                            </svg>
+                        </div>
+                        <h4 data-i18n="integrations.emr.label">Hastane EMR</h4>
                     </div>
-                    <h4 data-i18n="integrations.ikas.label">ikas</h4>
-                </div>
-                <div class="integration-item">
-                    <div class="integration-icon">
-                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="64" height="64" rx="12" fill="#60a5fa"/>
-                            <path d="M20 16h24v4H20v-4zm0 8h24v4H20v-4zm0 8h16v4H20v-4z" fill="white"/>
-                            <circle cx="46" cy="44" r="8" fill="#ff6b35"/>
-                            <path d="M46 40v8M42 44h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
+                    <div class="integration-item">
+                        <div class="integration-icon">
+                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="64" height="64" rx="12" fill="#60a5fa"/>
+                                <circle cx="32" cy="24" r="8" fill="white"/>
+                                <path d="M20 48c0-6.627 5.373-12 12-12s12 5.373 12 12v4H20v-4z" fill="white"/>
+                                <path d="M28 24h8M32 20v8" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h4 data-i18n="integrations.pos.label">Restoran POS</h4>
                     </div>
-                    <h4 data-i18n="integrations.booking.label">Randevu Sistemleri</h4>
-                </div>
-                <div class="integration-item">
-                    <div class="integration-icon">
-                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="64" height="64" rx="12" fill="#ff6b35"/>
-                            <path d="M32 16l8 8-8 8-8-8 8-8z" fill="white"/>
-                            <rect x="24" y="36" width="16" height="12" rx="2" fill="white"/>
-                            <circle cx="32" cy="26" r="3" fill="#ff6b35"/>
-                        </svg>
-                    </div>
-                    <h4 data-i18n="integrations.emr.label">Hastane EMR</h4>
-                </div>
-                <div class="integration-item">
-                    <div class="integration-icon">
-                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="64" height="64" rx="12" fill="#60a5fa"/>
-                            <circle cx="32" cy="24" r="8" fill="white"/>
-                            <path d="M20 48c0-6.627 5.373-12 12-12s12 5.373 12 12v4H20v-4z" fill="white"/>
-                            <path d="M28 24h8M32 20v8" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h4 data-i18n="integrations.pos.label">Restoran POS</h4>
-                </div>
-                <div class="integration-item">
-                    <div class="integration-icon">
-                        <img src="assets/integrations/slack.png" alt="Slack" data-i18n-attr="alt:integrations.slack.alt">
-                    </div>
-                    <h4 data-i18n="integrations.slack.label">Slack</h4>
                 </div>
             </div>
         </div>
     </section>
-
     <section class="use-cases">
         <div class="container">
             <div class="section-intro">
@@ -1324,29 +1469,29 @@
                 features: {
                     label: 'Gerçekte Özellikler',
                     title: 'Sadece sohbet değil. Tam otomasyon.',
-                    desc: 'Gerçek işletmelerden gerçek örnekler. Jargon yok; müşteriler yazdığında gerçekten olanlar var.',
+                    desc: 'Kısa senaryolar. Gerçek sonuçlar. Müşteri yazdığında neler olduğunu görün.',
                     order: {
                         title: 'Müşteri: "Siparişim nerede?"',
                         desc: 'Yapay zeka Shopify/ikas mağazanızı kontrol eder, #4521 siparişini bulur, DHL ile yolda olduğunu görür ve takip bilgisini getirir.',
-                        example: '"Merhaba Sarah! #4521 numaralı siparişiniz dün DHL ile yola çıktı. Takip kodu: DHL892... Tahmini teslimat: Yarın 17:00\'ye kadar. Başka yardımcı olabilir miyim?"',
+                        chat: '<div class="chat-bubble chat-bubble-user">Merhaba, 4521 numaralı siparişim ne durumda?</div><div class="chat-bubble chat-bubble-agent"><div class="chat-agent-name">Raven AI</div>Merhaba Mehmet! 4521 numaralı siparişiniz dün DHL ile kargoya verildi. Takip kodu: DHL892. Tahmini teslimat: Yarın 17:00\'ye kadar.<div class="chat-meta">WhatsApp • 1 dk önce</div></div>',
                         stat: 'Ortalama yanıt süresi: 1,8 saniye'
                     },
                     reservation: {
                         title: 'Restoran rezervasyonu',
                         desc: 'Müşteri "yarın 20:00\'de 4 kişilik masa" yazar',
-                        example: '"Harika! 6 Şubat saat 20:00 için 4 kişilik 7 numaralı masayı Mehmet adına ayırdım. Onay e-postanıza gönderildi."',
+                        chat: '<div class="chat-bubble chat-bubble-user">Yarın 20:00 için 4 kişilik masa ayırtabilir miyiz?</div><div class="chat-bubble chat-bubble-agent"><div class="chat-agent-name">Raven AI</div>Harika! 6 Şubat 20:00 için 4 kişilik 7 numaralı masayı Mehmet adına ayırdım. Onay bilgisi iletildi.<div class="chat-meta">WhatsApp • 1 dk önce</div></div>',
                         stat: 'Rezervasyonların %92\'si insan müdahalesi olmadan'
                     },
                     appointment: {
                         title: 'Hastane randevusu',
                         desc: '"Gelecek hafta Dr. Yılmaz\'ı görmek istiyorum"',
-                        example: '"Dr. Yılmaz\'ın müsait saatleri: Pazartesi 14:00, Çarşamba 10:00, Perşembe 16:00. Hangisi size uygun?"',
+                        chat: '<div class="chat-bubble chat-bubble-user">Gelecek hafta Dr. Yılmaz\'ı görmek istiyorum.</div><div class="chat-bubble chat-bubble-agent"><div class="chat-agent-name">Raven AI</div>Dr. Yılmaz\'ın müsait saatleri: Pazartesi 14:00, Çarşamba 10:00, Perşembe 16:00. Hangisi size uygun?<div class="chat-meta">WhatsApp • 2 dk önce</div></div>',
                         stat: 'Her türlü randevu sistemine bağlanır'
                     },
                     escalation: {
                         title: 'Ne zaman durması gerektiğini bilir',
                         desc: 'Müşteri: "Hasarlı ürün geldi ve bu durumdan çok rahatsızım"',
-                        example: '[Yapay zeka ekibe] "İnsan desteğine aktarılıyor - hasar şikayeti + yoğun duygu algılandı"<br>[Yapay zeka müşteriye] "Sizi hemen destek uzmanımıza bağlıyorum - hemen ilgilenecek."',
+                        chat: '<div class="chat-bubble chat-bubble-user">Hasarlı ürün geldi ve bu durumdan çok rahatsızım.</div><div class="chat-bubble chat-bubble-agent"><div class="chat-agent-name">Raven AI</div>Sizi hemen destek uzmanımıza bağlıyorum. Konunuzla şimdi ilgilenecekler.<div class="chat-meta">WhatsApp • 1 dk önce</div></div><div class="chat-bubble chat-bubble-internal"><div class="chat-agent-name">Raven AI → Ekip</div>İnsan desteğine aktarılıyor — hasar şikayeti + yoğun duygu algılandı.<div class="chat-meta">İç not</div></div>',
                         followup: 'Tüm konuşma geçmişi aktarılır. Ekibiniz "Size nasıl yardımcı olabilirim?" demeden bağlamı bilerek devralır.'
                     },
                     dashboard: {
@@ -1532,29 +1677,29 @@
                 features: {
                     label: 'What It Actually Does',
                     title: 'Not just chat. Complete automation.',
-                    desc: 'Real examples from real businesses. No buzzwords, just what happens when customers message you.',
+                    desc: 'Compact scenarios. Real outcomes. See what happens when customers message you.',
                     order: {
                         title: 'Customer: "Where\'s my order?"',
                         desc: 'AI checks your Shopify/ikas store, pulls order #4521, sees it\'s with DHL, grabs tracking.',
-                        example: '"Hi Sarah! Your order #4521 shipped yesterday via DHL. Tracking: DHL892... Expected delivery: Tomorrow by 5pm. Need anything else?"',
+                        chat: '<div class="chat-bubble chat-bubble-user">Hi, any update on order #4521?</div><div class="chat-bubble chat-bubble-agent"><div class="chat-agent-name">Raven AI</div>Hi Sarah! Your order #4521 shipped yesterday via DHL. Tracking: DHL892. Expected delivery: Tomorrow by 5pm.<div class="chat-meta">WhatsApp • 1 min ago</div></div>',
                         stat: 'Avg response time: 1.8 seconds'
                     },
                     reservation: {
                         title: 'Restaurant reservation',
                         desc: 'Customer texts "table for 4 tomorrow 8pm"',
-                        example: '"Perfect! I\'ve reserved table 7 for 4 people on Feb 6 at 8:00 PM under Mehmet. Confirmation sent to your email."',
+                        chat: '<div class="chat-bubble chat-bubble-user">Table for 4 tomorrow at 8pm?</div><div class="chat-bubble chat-bubble-agent"><div class="chat-agent-name">Raven AI</div>Perfect! I\'ve reserved table 7 for 4 people on Feb 6 at 8:00 PM under Mehmet. Confirmation sent.<div class="chat-meta">WhatsApp • 1 min ago</div></div>',
                         stat: '92% bookings without human touch'
                     },
                     appointment: {
                         title: 'Hospital appointment',
                         desc: '"Need to see Dr. Yilmaz next week"',
-                        example: '"Dr. Yilmaz has openings: Mon 2pm, Wed 10am, Thu 4pm. Which works for you?"',
+                        chat: '<div class="chat-bubble chat-bubble-user">Need to see Dr. Yilmaz next week.</div><div class="chat-bubble chat-bubble-agent"><div class="chat-agent-name">Raven AI</div>Dr. Yilmaz has openings: Mon 2pm, Wed 10am, Thu 4pm. Which works for you?<div class="chat-meta">WhatsApp • 2 min ago</div></div>',
                         stat: 'Connects to any booking system'
                     },
                     escalation: {
                         title: 'When it knows to stop',
                         desc: 'Customer: "I received a damaged product and I\'m really upset about this"',
-                        example: '[AI to team] "Escalating to human - damage complaint + emotional tone detected"<br>[AI to customer] "I\'m connecting you with our support specialist right now - they\'ll take care of this immediately."',
+                        chat: '<div class="chat-bubble chat-bubble-user">I received a damaged product and I\'m really upset.</div><div class="chat-bubble chat-bubble-agent"><div class="chat-agent-name">Raven AI</div>I\'m connecting you with a support specialist now. They\'ll take care of this immediately.<div class="chat-meta">WhatsApp • 1 min ago</div></div><div class="chat-bubble chat-bubble-internal"><div class="chat-agent-name">Raven AI → Team</div>Escalating to human — damage complaint + emotional tone detected.<div class="chat-meta">Internal note</div></div>',
                         followup: 'Full conversation history handed off. Your team jumps in with context, not "How can I help you?"'
                     },
                     dashboard: {
