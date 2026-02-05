@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kozmopath — Your Customers Never Wait Again</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #60a5fa;
+            --orange: #ff6b35;
+            --black: #0a0a0a;
+            --off-black: #111111;
+            --white: #fafafa;
+            --gray: #888;
+            --border: #222;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        ::selection {
+            background: var(--orange);
+            color: var(--black);
+        }
+
+        /* Noise texture overlay */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* Grid lines background */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 80px 80px;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Typography */
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .display {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 0.02em;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 36px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover img {
+            transform: scale(1.05);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--white);
+        }
+
+        .nav-cta {
+            background: var(--white);
+            color: var(--black);
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 11px;
+            transition: all 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: var(--orange);
+            color: var(--black);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            padding: 10rem 0 6rem;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--blue) 0%, transparent 70%);
+            opacity: 0.15;
+            filter: blur(100px);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 10%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--orange) 0%, transparent 70%);
+            opacity: 0.1;
+            filter: blur(80px);
+            animation: pulse 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.1); opacity: 0.2; }
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        .hero-tag::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--orange);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(4rem, 10vw, 9rem);
+            line-height: 0.9;
+            letter-spacing: -0.01em;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero h1 .line {
+            display: block;
+        }
+
+        .hero h1 .accent {
+            color: var(--blue);
+            position: relative;
+        }
+
+        .hero h1 .strike {
+            position: relative;
+            color: var(--gray);
+        }
+
+        .hero h1 .strike::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 4px;
+            background: var(--orange);
+            transform: rotate(-2deg);
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 480px;
+            margin-bottom: 3rem;
+            line-height: 1.9;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--orange);
+            color: var(--black);
+            padding: 1.25rem 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 12px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            transition: left 0.4s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 0;
+        }
+
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--white);
+            padding: 1.25rem 0;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            color: var(--blue);
+            border-color: var(--blue);
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .chat-window {
+            background: var(--off-black);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .chat-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .chat-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border);
+        }
+
+        .chat-dot:first-child { background: #ff5f57; }
+        .chat-dot:nth-child(2) { background: #ffbd2e; }
+        .chat-dot:last-child { background: #28ca42; }
+
+        .chat-title {
+            margin-left: auto;
+            font-size: 11px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .chat-body {
+            padding: 1.5rem;
+            min-height: 320px;
+        }
+
+        .chat-msg {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            animation: msgSlide 0.5s ease both;
+        }
+
+        @keyframes msgSlide {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .chat-msg.user {
+            flex-direction: row-reverse;
+        }
+
+        .chat-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .chat-msg.user .chat-avatar {
+            background: var(--orange);
+        }
+
+        .chat-bubble {
+            background: rgba(255,255,255,0.05);
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            max-width: 280px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .chat-msg.user .chat-bubble {
+            background: rgba(96, 165, 250, 0.15);
+        }
+
+        .chat-typing {
+            display: flex;
+            gap: 4px;
+            padding: 0.5rem;
+        }
+
+        .chat-typing span {
+            width: 6px;
+            height: 6px;
+            background: var(--blue);
+            border-radius: 50%;
+            animation: typing 1.4s ease-in-out infinite;
+        }
+
+        .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+
+        /* Stats Strip */
+        .stats-strip {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 4rem 0;
+            margin: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number .unit {
+            color: var(--blue);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--gray);
+        }
+
+        /* Editorial Features Section */
+        .features {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .features-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 8rem;
+            align-items: end;
+        }
+
+        .features-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            line-height: 0.95;
+        }
+
+        .features-intro {
+            font-size: 1rem;
+            color: var(--gray);
+            line-height: 1.9;
+            max-width: 500px;
+        }
+
+        /* Feature Stories - Editorial Layout */
+        .feature-story {
+            display: grid;
+            grid-template-columns: 0.4fr 1fr;
+            gap: 4rem;
+            padding: 6rem 0;
+            border-top: 1px solid var(--border);
+            position: relative;
+        }
+
+        .feature-story:nth-child(even) {
+            grid-template-columns: 1fr 0.4fr;
+        }
+
+        .feature-story:nth-child(even) .feature-meta {
+            order: 2;
+        }
+
+        .feature-meta {
+            padding-top: 1rem;
+        }
+
+        .feature-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 8rem;
+            line-height: 0.8;
+            color: var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .feature-tag {
+            display: inline-block;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--orange);
+            border: 1px solid var(--orange);
+            padding: 0.5rem 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        .feature-content h3 em {
+            font-style: italic;
+            color: var(--blue);
+        }
+
+        .feature-desc {
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            line-height: 1.9;
+            font-size: 0.95rem;
+        }
+
+        /* Conversation Example Box */
+        .convo-example {
+            background: var(--off-black);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .convo-example::before {
+            content: 'LIVE EXAMPLE';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--blue);
+            background: var(--black);
+            padding: 0 0.5rem;
+        }
+
+        .convo-line {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 13px;
+        }
+
+        .convo-line:last-child {
+            margin-bottom: 0;
+        }
+
+        .convo-sender {
+            color: var(--orange);
+            font-weight: 700;
+            min-width: 80px;
+        }
+
+        .convo-line.bot .convo-sender {
+            color: var(--blue);
+        }
+
+        .convo-text {
+            color: var(--white);
+        }
+
+        /* Integration Showcase */
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            margin: 3rem 0;
+        }
+
+        .integration-item {
+            background: var(--black);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .integration-item:hover {
+            background: var(--off-black);
+        }
+
+        .integration-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .integration-name {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--gray);
+        }
+
+        /* Metric Highlight */
+        .metric-highlight {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 1.5rem 0;
+            border-left: 3px solid var(--orange);
+            padding-left: 1.5rem;
+        }
+
+        .metric-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4rem;
+            line-height: 1;
+            color: var(--white);
+        }
+
+        .metric-context {
+            font-size: 0.9rem;
+            color: var(--gray);
+            max-width: 250px;
+        }
+
+        /* CRM Dashboard Preview */
+        .dashboard-preview {
+            background: var(--off-black);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .dashboard-nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .dashboard-nav span {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .dashboard-nav span.active {
+            color: var(--white);
+        }
+
+        .dashboard-body {
+            padding: 1.5rem;
+        }
+
+        .inbox-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .inbox-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .inbox-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .inbox-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--orange));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .inbox-content {
+            flex: 1;
+        }
+
+        .inbox-name {
+            font-size: 13px;
+            margin-bottom: 0.25rem;
+        }
+
+        .inbox-preview {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .inbox-meta {
+            text-align: right;
+        }
+
+        .inbox-time {
+            font-size: 11px;
+            color: var(--gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .inbox-badge {
+            background: var(--blue);
+            color: var(--black);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 10px;
+        }
+
+        .inbox-badge.human {
+            background: var(--orange);
+        }
+
+        /* Workflow Builder */
+        .workflow-visual {
+            background: var(--off-black);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .workflow-nodes {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            flex-wrap: wrap;
+        }
+
+        .workflow-node {
+            background: var(--black);
+            border: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: relative;
+        }
+
+        .workflow-node::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--blue);
+            font-size: 16px;
+        }
+
+        .workflow-node:last-child::after {
+            display: none;
+        }
+
+        .workflow-node.trigger {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .workflow-node.action {
+            border-color: var(--orange);
+            color: var(--orange);
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            padding: 10rem 0;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--blue) 0%, transparent 60%);
+            opacity: 0.08;
+            filter: blur(100px);
+        }
+
+        .cta-eyebrow {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--orange);
+            margin-bottom: 2rem;
+        }
+
+        .cta-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(4rem, 10vw, 10rem);
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .cta-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 400;
+            color: var(--gray);
+            margin-bottom: 4rem;
+            font-style: italic;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 4rem 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, 1fr);
+            gap: 4rem;
+        }
+
+        .footer-brand img {
+            height: 30px;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-brand p {
+            color: var(--gray);
+            font-size: 13px;
+            line-height: 1.8;
+            max-width: 280px;
+        }
+
+        .footer-col h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-col a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--blue);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .features-header {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .feature-story {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .feature-story:nth-child(even) {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-story:nth-child(even) .feature-meta {
+                order: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .integration-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .hero {
+                padding: 8rem 0 4rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-number {
+                font-size: 5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="grid-bg"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="logo_dark.svg" alt="Kozmopath">
+            </a>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#integrations">Integrations</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <a href="#contact" class="nav-cta">Start Free</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-text">
+                    <div class="hero-tag">AI Customer Service Platform</div>
+                    <h1>
+                        <span class="line"><span class="strike">WAIT TIMES</span></span>
+                        <span class="line">ARE <span class="accent">DEAD.</span></span>
+                    </h1>
+                    <p class="hero-desc">
+                        Your customers message at 2am asking "where's my order?" — 
+                        Kozmopath answers in 3 seconds with their actual tracking info. 
+                        No templates. No waiting. No humans needed (until you want them).
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#" class="btn-primary"><span>Get Demo</span></a>
+                        <a href="#" class="btn-secondary">Watch 2-min video →</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="chat-window">
+                        <div class="chat-header">
+                            <div class="chat-dots">
+                                <span class="chat-dot"></span>
+                                <span class="chat-dot"></span>
+                                <span class="chat-dot"></span>
+                            </div>
+                            <span class="chat-title">WhatsApp • Live</span>
+                        </div>
+                        <div class="chat-body">
+                            <div class="chat-msg user" style="animation-delay: 0.2s">
+                                <div class="chat-avatar">M</div>
+                                <div class="chat-bubble">Hi, I ordered 3 days ago and still nothing. Order #38291</div>
+                            </div>
+                            <div class="chat-msg bot" style="animation-delay: 0.5s">
+                                <div class="chat-avatar">K</div>
+                                <div class="chat-bubble">
+                                    Hey Mehmet! I found your order — it shipped yesterday from Istanbul and is currently in Ankara. Expected delivery: tomorrow by 6pm. Want me to send you the live tracking link?
+                                </div>
+                            </div>
+                            <div class="chat-msg user" style="animation-delay: 0.8s">
+                                <div class="chat-avatar">M</div>
+                                <div class="chat-bubble">Yes please!</div>
+                            </div>
+                            <div class="chat-msg bot" style="animation-delay: 1.1s">
+                                <div class="chat-avatar">K</div>
+                                <div class="chat-bubble">Here you go: track.xyz/38291 📦 Anything else I can help with?</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-strip">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item reveal">
+                    <div class="stat-number">3<span class="unit">sec</span></div>
+                    <div class="stat-label">Average Response Time</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-number">87<span class="unit">%</span></div>
+                    <div class="stat-label">Resolved Without Human</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-number">24<span class="unit">/7</span></div>
+                    <div class="stat-label">Always-On Support</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-number">€0<span class="unit">.02</span></div>
+                    <div class="stat-label">Per Conversation</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="features-header reveal">
+                <h2 class="features-title">Not another<br>chatbot.</h2>
+                <p class="features-intro">
+                    Generic chatbots read from scripts. Kozmopath actually understands context, 
+                    queries your real data, and takes action — like a support agent who never 
+                    sleeps and never needs coffee.
+                </p>
+            </div>
+
+            <!-- Feature 1: Instant Order Lookup -->
+            <div class="feature-story reveal">
+                <div class="feature-meta">
+                    <div class="feature-number">01</div>
+                    <span class="feature-tag">E-Commerce</span>
+                </div>
+                <div class="feature-content">
+                    <h3>"Where's my order?" answered <em>instantly</em></h3>
+                    <p class="feature-desc">
+                        Connected to Shopify, ikas, or your custom backend. When a customer 
+                        asks about their order, Kozmopath pulls the actual tracking data, 
+                        delivery estimate, and even the courier's name — in real time.
+                    </p>
+                    <div class="convo-example">
+                        <div class="convo-line">
+                            <span class="convo-sender">Customer:</span>
+                            <span class="convo-text">Did my package ship yet? I need it for Saturday.</span>
+                        </div>
+                        <div class="convo-line bot">
+                            <span class="convo-sender">Kozmopath:</span>
+                            <span class="convo-text">Your order shipped today via Yurtiçi Kargo. Current ETA is Friday 4pm — you'll have it before Saturday! Here's your tracking: yk.com/TR827364</span>
+                        </div>
+                    </div>
+                    <div class="integration-grid">
+                        <div class="integration-item">
+                            <div class="integration-icon">🛒</div>
+                            <div class="integration-name">Shopify</div>
+                        </div>
+                        <div class="integration-item">
+                            <div class="integration-icon">📦</div>
+                            <div class="integration-name">ikas</div>
+                        </div>
+                        <div class="integration-item">
+                            <div class="integration-icon">🔌</div>
+                            <div class="integration-name">Custom API</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2: Smart Handoff -->
+            <div class="feature-story reveal">
+                <div class="feature-meta">
+                    <div class="feature-number">02</div>
+                    <span class="feature-tag">Human Handoff</span>
+                </div>
+                <div class="feature-content">
+                    <h3>AI handles 87%. Humans get the <em>important</em> 13%.</h3>
+                    <p class="feature-desc">
+                        Refund requests over €200. Angry customers. Medical questions at your 
+                        clinic. Kozmopath knows when to step back and alert your team — with 
+                        full conversation context, so agents don't start from zero.
+                    </p>
+                    <div class="metric-highlight">
+                        <span class="metric-value">4.2x</span>
+                        <span class="metric-context">faster resolution when agents get pre-qualified handoffs with context</span>
+                    </div>
+                    <div class="dashboard-preview">
+                        <div class="dashboard-header">
+                            <span style="font-size: 12px; font-weight: 700;">RAVEN CRM</span>
+                            <div class="dashboard-nav">
+                                <span class="active">All</span>
+                                <span>AI Handled</span>
+                                <span>Needs Human</span>
+                            </div>
+                        </div>
+                        <div class="dashboard-body">
+                            <div class="inbox-list">
+                                <div class="inbox-item">
+                                    <div class="inbox-avatar">AK</div>
+                                    <div class="inbox-content">
+                                        <div class="inbox-name">Ayşe K.</div>
+                                        <div class="inbox-preview">Wants full refund — damaged product photo attached</div>
+                                    </div>
+                                    <div class="inbox-meta">
+                                        <div class="inbox-time">2m ago</div>
+                                        <span class="inbox-badge human">Urgent</span>
+                                    </div>
+                                </div>
+                                <div class="inbox-item">
+                                    <div class="inbox-avatar">ME</div>
+                                    <div class="inbox-content">
+                                        <div class="inbox-name">Mehmet E.</div>
+                                        <div class="inbox-preview">Order tracking sent ✓</div>
+                                    </div>
+                                    <div class="inbox-meta">
+                                        <div class="inbox-time">5m ago</div>
+                                        <span class="inbox-badge">AI ✓</span>
+                                    </div>
+                                </div>
+                                <div class="inbox-item">
+                                    <div class="inbox-avatar">ZT</div>
+                                    <div class="inbox-content">
+                                        <div class="inbox-name">Zeynep T.</div>
+                                        <div class="inbox-preview">Reservation confirmed for 4 guests</div>
+                                    </div>
+                                    <div class="inbox-meta">
+                                        <div class="inbox-time">8m ago</div>
+                                        <span class="inbox-badge">AI ✓</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3: Reservations -->
+            <div class="feature-story reveal">
+                <div class="feature-meta">
+                    <div class="feature-number">03</div>
+                    <span class="feature-tag">Reservations</span>
+                </div>
+                <div class="feature-content">
+                    <h3>Hotels. Restaurants. Hospitals. <em>Booked.</em></h3>
+                    <p class="feature-desc">
+                        "I need a table for 4 on Friday at 8pm" becomes a confirmed reservation 
+                        in your system — no human intervention. Works with hospital appointments, 
+                        hotel rooms, spa bookings, anything with a calendar.
+                    </p>
+                    <div class="convo-example">
+                        <div class="convo-line">
+                            <span class="convo-sender">Guest:</span>
+                            <span class="convo-text">Can I book a room for Dec 15-18? 2 adults.</span>
+                        </div>
+                        <div class="convo-line bot">
+                            <span class="convo-sender">Kozmopath:</span>
+                            <span class="convo-text">I have a Superior Double available for those dates at €89/night. Total: €267 for 3 nights. Should I reserve it under your name?</span>
+                        </div>
+                        <div class="convo-line">
+                            <span class="convo-sender">Guest:</span>
+                            <span class="convo-text">Yes, Ali Yılmaz</span>
+                        </div>
+                        <div class="convo-line bot">
+                            <span class="convo-sender">Kozmopath:</span>
+                            <span class="convo-text">Done! Confirmation #HTL-8827 sent to your WhatsApp. See you Dec 15th, Ali! 🏨</span>
+                        </div>
+                    </div>
+                    <div class="metric-highlight">
+                        <span class="metric-value">€2,400</span>
+                        <span class="metric-context">average monthly savings on booking staff for mid-size hotels</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 4: Custom Workflows -->
+            <div class="feature-story reveal">
+                <div class="feature-meta">
+                    <div class="feature-number">04</div>
+                    <span class="feature-tag">Workflows</span>
+                </div>
+                <div class="feature-content">
+                    <h3>Build <em>any</em> agent workflow. No code required.</h3>
+                    <p class="feature-desc">
+                        Connect triggers, conditions, and actions like Lego blocks. 
+                        WhatsApp message → check inventory → send personalized offer → 
+                        log in CRM. If you can describe it, Kozmopath can automate it.
+                    </p>
+                    <div class="workflow-visual">
+                        <div class="workflow-nodes">
+                            <div class="workflow-node trigger">WhatsApp Msg</div>
+                            <div class="workflow-node">Detect Intent</div>
+                            <div class="workflow-node">Query Shopify</div>
+                            <div class="workflow-node action">Send Response</div>
+                            <div class="workflow-node">Log to Raven</div>
+                        </div>
+                    </div>
+                    <p class="feature-desc" style="margin-top: 2rem;">
+                        Every conversation, every action, every handoff — visible in your 
+                        Raven dashboard. Full audit trail, exportable reports, and real-time 
+                        analytics on what your AI is actually doing.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-eyebrow reveal">Ready to stop losing customers to slow support?</div>
+            <h2 class="cta-title reveal">LET'S TALK.</h2>
+            <p class="cta-subtitle reveal">15-minute demo. No slides. Just your use case, live.</p>
+            <div class="cta-buttons reveal">
+                <a href="#" class="btn-primary"><span>Schedule Demo</span></a>
+                <a href="#" class="btn-secondary">hello@kozmopath.com →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo_dark.svg" alt="Kozmopath">
+                    <p>AI-powered customer service that actually understands your business. Based in Istanbul, serving globally.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Raven CRM</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2024 Kozmopath. All rights reserved.</span>
+                <span>Built in Istanbul 🇹🇷</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Reveal on scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        reveals.forEach(el => observer.observe(el));
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.style.borderBottomColor = '#333';
+            } else {
+                nav.style.borderBottomColor = '#222';
+            }
+        });
+    </script>
+</body>
+</html>

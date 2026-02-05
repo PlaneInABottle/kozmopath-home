@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function () {
+            const root = document.documentElement;
+            const safeGet = (key) => {
+                try {
+                    return localStorage.getItem(key);
+                } catch (error) {
+                    return null;
+                }
+            };
+            const storedTheme = safeGet('theme');
+            const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            const theme = storedTheme === 'light' || storedTheme === 'dark'
+                ? storedTheme
+                : (prefersLight ? 'light' : 'dark');
+            root.dataset.theme = theme;
+        })();
+    </script>
+    <title data-i18n="meta.title">Kozmopath - Gerçekten İşleyen Yapay Zeka Müşteri Hizmeti</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #60a5fa;
+            --orange: #ff6b35;
+            --dark: #070707;
+            --darker: #020202;
+            --light: #f8fafc;
+            --gray: #b3b3b3;
+            --border: #1f1f1f;
+            --nav-bg: rgba(7, 7, 7, 0.82);
+            --text-on-accent: #0a0a0a;
+            --hover-surface: #f5f5f5;
+            --card: #0f0f0f;
+            --code-surface: rgba(7, 7, 7, 0.7);
+        }
+
+        [data-theme="light"] {
+            --dark: #f8fafc;
+            --darker: #ffffff;
+            --light: #0b0b0b;
+            --gray: #475569;
+            --border: #e2e8f0;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --hover-surface: #e2e8f0;
+            --card: #ffffff;
+            --code-surface: #f1f5f9;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 96px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            font-size: 1rem;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.14;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                radial-gradient(circle at 20% 20%, rgba(96, 165, 250, 0.08), transparent 50%),
+                radial-gradient(circle at 80% 30%, rgba(255, 107, 53, 0.06), transparent 50%);
+            background-size: 160px 160px, 160px 160px, 900px 900px, 850px 850px;
+            mix-blend-mode: soft-light;
+        }
+
+        [data-theme="light"] body::before {
+            opacity: 0.3;
+            background-image:
+                linear-gradient(rgba(10, 10, 10, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(10, 10, 10, 0.06) 1px, transparent 1px),
+                radial-gradient(circle at 20% 20%, rgba(96, 165, 250, 0.1), transparent 45%),
+                radial-gradient(circle at 80% 30%, rgba(255, 107, 53, 0.08), transparent 40%);
+            mix-blend-mode: multiply;
+        }
+
+        body,
+        nav,
+        section,
+        footer,
+        .feature-block,
+        .feature-example,
+        .integration-item,
+        .use-case-card,
+        .pricing-card,
+        .btn,
+        .cta-nav,
+        .theme-toggle,
+        .lang-toggle {
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.45);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Nav */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1.25rem 0;
+            z-index: 1000;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 34px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 1.75rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+            padding: 0.4rem 0.6rem;
+            border-radius: 999px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        nav a:hover {
+            color: var(--blue);
+        }
+
+        .cta-nav {
+            background: var(--blue);
+            color: var(--text-on-accent) !important;
+            padding: 0.7rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+        }
+
+        .cta-nav:hover {
+            background: var(--hover-surface);
+            color: var(--text-on-accent) !important;
+        }
+
+        .theme-toggle {
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--darker);
+            color: var(--light);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+        }
+
+        .theme-toggle .icon-sun,
+        .theme-toggle .icon-moon {
+            width: 22px;
+            height: 22px;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .theme-toggle svg {
+            display: block;
+            pointer-events: none;
+        }
+
+        .theme-toggle .icon-sun {
+            display: block;
+        }
+
+        .theme-toggle .icon-moon {
+            display: none;
+        }
+
+        [data-theme="light"] .theme-toggle .icon-sun {
+            display: none;
+        }
+
+        [data-theme="light"] .theme-toggle .icon-moon {
+            display: block;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--blue);
+            transform: translateY(-1px);
+        }
+
+        .theme-toggle:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.4);
+        }
+
+        .lang-toggle {
+            min-width: 56px;
+            min-height: 44px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--light);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.7rem;
+            line-height: 1;
+            padding: 0 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+        }
+
+        .lang-toggle:hover {
+            border-color: var(--orange);
+            transform: translateY(-1px);
+        }
+
+        .lang-toggle:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.35);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 7.5rem 0 5rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.15), transparent);
+            border-radius: 50%;
+            filter: blur(80px);
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.85rem, 7.5vw, 5.15rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 .blue {
+            color: var(--blue);
+        }
+
+        .hero h1 .orange {
+            color: var(--orange);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+            color: var(--gray);
+            max-width: 720px;
+            margin-bottom: 3.5rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.25rem;
+            border-radius: 999px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--blue);
+            color: var(--text-on-accent);
+        }
+
+        .btn-primary:hover {
+            background: var(--hover-surface);
+            transform: translateY(-1px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--blue);
+            background: rgba(96, 165, 250, 0.1);
+        }
+
+        /* What It Does - Editorial Style */
+        .what-it-does {
+            padding: 9rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .section-intro {
+            margin-bottom: 5rem;
+        }
+
+        .section-label {
+            color: var(--orange);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.24em;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.85rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 720px;
+            line-height: 1.7;
+        }
+
+        /* Feature Showcase - Magazine Layout */
+        .feature-showcase {
+            display: grid;
+            gap: 2.5rem;
+        }
+
+        .feature-block {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--blue), var(--orange));
+        }
+
+        .feature-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 5.5rem;
+            font-weight: 700;
+            color: rgba(96, 165, 250, 0.08);
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            line-height: 1;
+        }
+
+        .feature-block h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.65rem;
+            margin-bottom: 1rem;
+            color: var(--blue);
+        }
+
+        .feature-example {
+            background: var(--code-surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--gray);
+            position: relative;
+        }
+
+        .feature-example::before {
+            content: '→';
+            color: var(--orange);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .feature-stat {
+            display: inline-block;
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid var(--blue);
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-weight: 600;
+            color: var(--blue);
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.75rem;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Integrations */
+        .integrations {
+            padding: 9rem 0;
+            border-top: 1px solid var(--border);
+            background: var(--darker);
+        }
+
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .integration-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 2.25rem 1.5rem;
+            text-align: center;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            cursor: pointer;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .integration-item:hover {
+            border-color: var(--blue);
+            transform: translateY(-2px);
+            background: rgba(96, 165, 250, 0.06);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .integration-item h4 {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .integration-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .integration-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Use Cases */
+        .use-cases {
+            padding: 9rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .use-case-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.75rem;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .use-case-card:hover {
+            border-color: var(--orange);
+            transform: translateY(-2px);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .use-case-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--orange);
+        }
+
+        .use-case-card ul {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .use-case-card li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--gray);
+            font-size: 0.92rem;
+        }
+
+        .use-case-card li:last-child {
+            border-bottom: none;
+        }
+
+        .use-case-card li::before {
+            content: '•';
+            color: var(--blue);
+            font-weight: bold;
+            margin-right: 0.75rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 9rem 0;
+            border-top: 1px solid var(--border);
+            background: var(--darker);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem;
+            position: relative;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--blue);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--blue);
+            background: rgba(96, 165, 250, 0.05);
+            box-shadow: 0 24px 70px rgba(96, 165, 250, 0.2);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--blue);
+            color: var(--text-on-accent);
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+        }
+
+        .pricing-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.35rem;
+            font-weight: 700;
+            color: var(--blue);
+            margin: 1.5rem 0;
+        }
+
+        .price span {
+            font-size: 1.15rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .pricing-features li {
+            padding: 0.75rem 0;
+            color: var(--gray);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li::before {
+            content: '•';
+            color: var(--blue);
+            font-weight: bold;
+            margin-right: 0.75rem;
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 9rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            position: relative;
+        }
+
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.15), transparent);
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .final-cta .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .final-cta .btn {
+            position: relative;
+            z-index: 2;
+            pointer-events: auto;
+        }
+
+        .final-cta h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.35rem, 4.6vw, 3.7rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .final-cta p {
+            font-size: 1.15rem;
+            color: var(--gray);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        /* Footer */
+        footer {
+            padding: 5rem 0 2.5rem;
+            border-top: 1px solid var(--border);
+            background: var(--darker);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand img {
+            height: 32px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--gray);
+            line-height: 1.8;
+            max-width: 350px;
+        }
+
+        .footer-col h4 {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col a {
+            color: var(--gray);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--blue);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <img src="logo_dark.svg" alt="Kozmopath" data-logo-light="logo.svg" data-logo-dark="logo_dark.svg" data-i18n-attr="alt:footer.logo.alt">
+            </div>
+            <div class="nav-actions">
+                <ul>
+                    <li><a href="#features" data-i18n="nav.features">Özellikler</a></li>
+                    <li><a href="#integrations" data-i18n="nav.integrations">Entegrasyonlar</a></li>
+                    <li><a href="#pricing" data-i18n="nav.pricing">Fiyatlandırma</a></li>
+                    <li><a href="#" class="cta-nav" data-i18n="nav.cta">Ücretsiz Başla</a></li>
+                </ul>
+                <button class="lang-toggle" id="lang-toggle" type="button" data-i18n="nav.langToggle" data-i18n-attr="aria-label:nav.langToggleAria" aria-label="Dili İngilizceye çevir">EN</button>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Açık temaya geç" data-i18n-attr="aria-label:theme.toggleToLight" aria-pressed="false">
+                    <!-- Sun icon (shown in dark mode, click to go light) -->
+                    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <!-- Moon icon (shown in light mode, click to go dark) -->
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1 class="fade-in">
+                <span data-i18n="hero.title.line1">Müşterileriniz yazar.</span><br>
+                <span class="blue" data-i18n="hero.title.line2">Yapay zeka yanıtlar.</span><br>
+                <span class="orange" data-i18n="hero.title.line3">Anında.</span>
+            </h1>
+            <p class="hero-subtitle fade-in" data-i18n="hero.subtitle">
+                WhatsApp, e-posta, her kanal. İşinizi, stoklarınızı, takviminizi bilen tek bir yapay zeka. Siz uyurken müşteri konuşmalarının %94'ünü yönetir.
+            </p>
+            <div class="hero-cta fade-in">
+                <a href="#pricing" class="btn btn-primary" data-i18n="hero.cta.primary">Canlı Demo</a>
+                <a href="#features" class="btn btn-secondary" data-i18n="hero.cta.secondary">Nasıl Çalışır?</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="what-it-does" id="features">
+        <div class="container">
+            <div class="section-intro">
+                <span class="section-label" data-i18n="features.label">Gerçekte Ne Yapar</span>
+                <h2 class="section-title" data-i18n="features.title">Sohbet değil. Tam otomasyon.</h2>
+                <p class="section-desc" data-i18n="features.desc">
+                    Gerçek işletmelerden gerçek örnekler. Jargon yok; müşteriler yazdığında gerçekten olanlar var.
+                </p>
+            </div>
+
+            <div class="feature-showcase">
+                <div class="feature-block">
+                    <span class="feature-number">01</span>
+                    <h3 data-i18n="features.order.title">Müşteri: "Siparişim nerede?"</h3>
+                    <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.order.desc">
+                        Yapay zeka Shopify/ikas mağazanızı kontrol eder, #4521 siparişini bulur, DHL ile yolda olduğunu görür ve takip bilgisini getirir.
+                    </p>
+                    <div class="feature-example" data-i18n="features.order.example">
+                        "Merhaba Sarah! #4521 numaralı siparişiniz dün DHL ile yola çıktı. Takip kodu: DHL892... Tahmini teslimat: Yarın 17:00'ye kadar. Başka yardımcı olabilir miyim?"
+                    </div>
+                    <span class="feature-stat" data-i18n="features.order.stat">Ortalama yanıt süresi: 1,8 saniye</span>
+                </div>
+
+                <div class="two-col">
+                    <div class="feature-block">
+                        <span class="feature-number">02</span>
+                        <h3 data-i18n="features.reservation.title">Restoran rezervasyonu</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.reservation.desc">
+                            Müşteri "yarın 20:00'de 4 kişilik masa" yazar
+                        </p>
+                        <div class="feature-example" data-i18n="features.reservation.example">
+                            "Harika! 6 Şubat saat 20:00 için 4 kişilik 7 numaralı masayı Mehmet adına ayırdım. Onay e-postanıza gönderildi."
+                        </div>
+                        <span class="feature-stat" data-i18n="features.reservation.stat">%92 rezervasyon insan dokunuşu olmadan</span>
+                    </div>
+
+                    <div class="feature-block">
+                        <span class="feature-number">03</span>
+                        <h3 data-i18n="features.appointment.title">Hastane randevusu</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.appointment.desc">
+                            "Gelecek hafta Dr. Yılmaz'dan randevu almak istiyorum"
+                        </p>
+                        <div class="feature-example" data-i18n="features.appointment.example">
+                            "Dr. Yılmaz'ın müsait saatleri: Pazartesi 14:00, Çarşamba 10:00, Perşembe 16:00. Hangisi size uygun?"
+                        </div>
+                        <span class="feature-stat" data-i18n="features.appointment.stat">Her türlü randevu sistemine bağlanır</span>
+                    </div>
+                </div>
+
+                <div class="feature-block">
+                    <span class="feature-number">04</span>
+                    <h3 data-i18n="features.escalation.title">Ne zaman duracağını bilir</h3>
+                    <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.escalation.desc">
+                        Müşteri: "Hasarlı ürün geldi ve bu durumdan çok rahatsızım"
+                    </p>
+                    <div class="feature-example" data-i18n="features.escalation.example" data-i18n-html="true">
+                        [Yapay zeka ekibe] "İnsan desteğine aktarılıyor - hasar şikayeti + yoğun duygu algılandı"<br>
+                        [Yapay zeka müşteriye] "Sizi hemen destek uzmanımıza bağlıyorum - konunuza şimdi bakacak."
+                    </div>
+                    <p style="color: var(--gray); margin-top: 1rem;" data-i18n="features.escalation.followup">
+                        Tüm konuşma geçmişi aktarılır. Ekibiniz "Size nasıl yardımcı olabilirim?" demeden bağlamı bilerek devralır.
+                    </p>
+                </div>
+
+                <div class="feature-block">
+                    <span class="feature-number">05</span>
+                    <h3 data-i18n="features.dashboard.title">Her şey tek yerde</h3>
+                    <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.dashboard.desc">
+                        Ekibiniz tüm konuşmaları—WhatsApp, e-posta, canlı sohbet—birleşik CRM panelimiz Raven\'da görür.
+                    </p>
+                    <ul style="margin-top: 1.5rem; color: var(--gray); line-height: 2;">
+                        <li data-i18n="features.dashboard.list1">→ Tüm kanallarda müşteri geçmişi</li>
+                        <li data-i18n="features.dashboard.list2">→ Yapay zeka performans metrikleri</li>
+                        <li data-i18n="features.dashboard.list3">→ İstediğiniz konuşmaya anında katılın</li>
+                        <li data-i18n="features.dashboard.list4">→ Yapay zekanın çözdüklerini ve yönlendirdiklerini görün</li>
+                    </ul>
+                    <span class="feature-stat" data-i18n="features.dashboard.stat">Tek panel. Sıfır uygulama değişimi.</span>
+                </div>
+
+                <div class="feature-block">
+                    <span class="feature-number">06</span>
+                    <h3 data-i18n="features.workflows.title">İş akışlarınız, bizimkiler değil</h3>
+                    <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.workflows.desc">
+                        İstediğiniz otomasyonu oluşturun. Kod gerekmez. Örnekler:
+                    </p>
+                    <ul style="margin-top: 1.5rem; color: var(--gray); line-height: 2;">
+                        <li data-i18n="features.workflows.list1">→ Stok kontrolü → İlgili ürün önerisi → Siparişi işle</li>
+                        <li data-i18n="features.workflows.list2">→ Potansiyel müşteriyi nitelendir → Demo planla → CRM'e ekle → Satış ekibine e-posta gönder</li>
+                        <li data-i18n="features.workflows.list3">→ Belirtileri topla → Uygun saatleri bul → Randevu oluştur → Hazırlık bilgisi gönder</li>
+                        <li data-i18n="features.workflows.list4">→ Sadakat puanlarını kontrol et → İndirim uygula → Rezervasyonu onayla → Yol tarifi gönder</li>
+                    </ul>
+                    <span class="feature-stat" data-i18n="features.workflows.stat">Sınırsız özel iş akışı dahil</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="integrations" id="integrations">
+        <div class="container">
+            <div class="section-intro">
+                <span class="section-label" data-i18n="integrations.label">Entegrasyonlar</span>
+                <h2 class="section-title" data-i18n="integrations.title">Her şeye bağlanır</h2>
+                <p class="section-desc" data-i18n="integrations.desc">
+                    E-ticaretiniz, randevu sisteminiz, CRM’iniz, ne varsa. API’si varsa bağlanırız.
+                </p>
+            </div>
+
+            <div class="integration-grid">
+                <div class="integration-item">
+                    <div class="integration-icon">
+                        <img src="assets/channels/whatsapp.png" alt="WhatsApp" data-i18n-attr="alt:integrations.whatsapp.alt">
+                    </div>
+                    <h4 data-i18n="integrations.whatsapp.label">WhatsApp</h4>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">
+                        <img src="assets/channels/email.png" alt="Email" data-i18n-attr="alt:integrations.email.alt">
+                    </div>
+                    <h4 data-i18n="integrations.email.label">E-posta</h4>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">
+                        <img src="assets/channels/website.png" alt="Canlı Sohbet" data-i18n-attr="alt:integrations.chat.alt">
+                    </div>
+                    <h4 data-i18n="integrations.chat.label">Canlı Sohbet</h4>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">
+                        <img src="assets/integrations/shopify.png" alt="Shopify" data-i18n-attr="alt:integrations.shopify.alt">
+                    </div>
+                    <h4 data-i18n="integrations.shopify.label">Shopify</h4>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">
+                        <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="120" height="40" rx="8" fill="#1a1a1a"/>
+                            <text x="60" y="26" font-family="DM Sans, sans-serif" font-size="18" font-weight="700" fill="#60a5fa" text-anchor="middle">ikas</text>
+                        </svg>
+                    </div>
+                    <h4 data-i18n="integrations.ikas.label">ikas</h4>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="64" height="64" rx="12" fill="#60a5fa"/>
+                            <path d="M20 16h24v4H20v-4zm0 8h24v4H20v-4zm0 8h16v4H20v-4z" fill="white"/>
+                            <circle cx="46" cy="44" r="8" fill="#ff6b35"/>
+                            <path d="M46 40v8M42 44h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h4 data-i18n="integrations.booking.label">Randevu Sistemleri</h4>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="64" height="64" rx="12" fill="#ff6b35"/>
+                            <path d="M32 16l8 8-8 8-8-8 8-8z" fill="white"/>
+                            <rect x="24" y="36" width="16" height="12" rx="2" fill="white"/>
+                            <circle cx="32" cy="26" r="3" fill="#ff6b35"/>
+                        </svg>
+                    </div>
+                    <h4 data-i18n="integrations.emr.label">Hastane EMR</h4>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="64" height="64" rx="12" fill="#60a5fa"/>
+                            <circle cx="32" cy="24" r="8" fill="white"/>
+                            <path d="M20 48c0-6.627 5.373-12 12-12s12 5.373 12 12v4H20v-4z" fill="white"/>
+                            <path d="M28 24h8M32 20v8" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h4 data-i18n="integrations.pos.label">Restoran POS</h4>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">
+                        <img src="assets/integrations/slack.png" alt="Slack" data-i18n-attr="alt:integrations.slack.alt">
+                    </div>
+                    <h4 data-i18n="integrations.slack.label">Slack</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="use-cases">
+        <div class="container">
+            <div class="section-intro">
+                <span class="section-label" data-i18n="useCases.label">Kullanım Alanları</span>
+                <h2 class="section-title" data-i18n="useCases.title">Kozmopath'ı kimler kullanıyor</h2>
+            </div>
+
+            <div class="use-case-grid">
+                <div class="use-case-card">
+                    <h3 data-i18n="useCases.ecommerce.title">E-Ticaret Mağazaları</h3>
+                    <p style="color: var(--gray);" data-i18n="useCases.ecommerce.desc">Aylık 1.000+ sipariş alan Shopify ve ikas mağazaları</p>
+                    <ul>
+                        <li data-i18n="useCases.ecommerce.list1">Sipariş takibi ve durum bildirimleri</li>
+                        <li data-i18n="useCases.ecommerce.list2">İade ve değişim otomasyonu</li>
+                        <li data-i18n="useCases.ecommerce.list3">Ürün önerileri</li>
+                        <li data-i18n="useCases.ecommerce.list4">Terk edilen sepet kurtarma</li>
+                        <li data-i18n="useCases.ecommerce.list5">Stok durumu kontrolleri</li>
+                    </ul>
+                </div>
+
+                <div class="use-case-card">
+                    <h3 data-i18n="useCases.healthcare.title">Sağlık Kuruluşları</h3>
+                    <p style="color: var(--gray);" data-i18n="useCases.healthcare.desc">Hastaneler, klinikler, diş klinikleri</p>
+                    <ul>
+                        <li data-i18n="useCases.healthcare.list1">Randevu oluşturma ve yeniden planlama</li>
+                        <li data-i18n="useCases.healthcare.list2">Reçete yenileme talepleri</li>
+                        <li data-i18n="useCases.healthcare.list3">Test sonucu bildirimleri</li>
+                        <li data-i18n="useCases.healthcare.list4">Muayene öncesi bilgilendirme</li>
+                        <li data-i18n="useCases.healthcare.list5">Sigorta doğrulama</li>
+                    </ul>
+                </div>
+
+                <div class="use-case-card">
+                    <h3 data-i18n="useCases.hospitality.title">Oteller ve Restoranlar</h3>
+                    <p style="color: var(--gray);" data-i18n="useCases.hospitality.desc">Yoğun talep alan konaklama ve yeme-içme işletmeleri</p>
+                    <ul>
+                        <li data-i18n="useCases.hospitality.list1">Oda ve masa rezervasyonları</li>
+                        <li data-i18n="useCases.hospitality.list2">Mesajla giriş/çıkış</li>
+                        <li data-i18n="useCases.hospitality.list3">Oda servisi siparişleri</li>
+                        <li data-i18n="useCases.hospitality.list4">Yerel mekan önerileri</li>
+                        <li data-i18n="useCases.hospitality.list5">Özel isteklerin yönetimi</li>
+                    </ul>
+                </div>
+
+                <div class="use-case-card">
+                    <h3 data-i18n="useCases.services.title">Hizmet İşletmeleri</h3>
+                    <p style="color: var(--gray);" data-i18n="useCases.services.desc">Kuaförler, tamirciler, danışmanlar</p>
+                    <ul>
+                        <li data-i18n="useCases.services.list1">Randevu planlama</li>
+                        <li data-i18n="useCases.services.list2">Fiyat teklifi oluşturma</li>
+                        <li data-i18n="useCases.services.list3">Durum güncellemeleri</li>
+                        <li data-i18n="useCases.services.list4">Ödeme hatırlatıcıları</li>
+                        <li data-i18n="useCases.services.list5">Geri bildirim toplama</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-intro">
+                <span class="section-label" data-i18n="pricing.label">Fiyatlandırma</span>
+                <h2 class="section-title" data-i18n="pricing.title">Ölçeğinizi seçin</h2>
+                <p class="section-desc" data-i18n="pricing.desc">
+                    Tüm planlarda sınırsız iş akışı, Raven CRM ve insan desteğine yönlendirme dahil.
+                </p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 data-i18n="pricing.starter.title">Başlangıç</h3>
+                    <div class="price">$299<span data-i18n="pricing.perMonth">/ay</span></div>
+                    <p style="color: var(--gray); margin-bottom: 1.5rem;" data-i18n="pricing.starter.desc">İlk adımlarını atan küçük işletmeler için</p>
+                    <ul class="pricing-features">
+                        <li data-i18n="pricing.starter.list1">Aylık 2.000 yapay zeka görüşmesi</li>
+                        <li data-i18n="pricing.starter.list2">2 entegrasyon bağlantısı</li>
+                        <li data-i18n="pricing.starter.list3">WhatsApp + E-posta</li>
+                        <li data-i18n="pricing.starter.list4">Temel iş akışı oluşturucu</li>
+                        <li data-i18n="pricing.starter.list5">Raven CRM erişimi</li>
+                        <li data-i18n="pricing.starter.list6">E-posta desteği</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%; text-align: center; margin-top: 2rem;" data-i18n="pricing.starter.cta">Denemeyi Başlat</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge" data-i18n="pricing.popular">EN POPÜLER</div>
+                    <h3 data-i18n="pricing.pro.title">Profesyonel</h3>
+                    <div class="price">$799<span data-i18n="pricing.perMonth">/ay</span></div>
+                    <p style="color: var(--gray); margin-bottom: 1.5rem;" data-i18n="pricing.pro.desc">Hızla büyüyen işletmeler için</p>
+                    <ul class="pricing-features">
+                        <li data-i18n="pricing.pro.list1">Aylık 10.000 yapay zeka görüşmesi</li>
+                        <li data-i18n="pricing.pro.list2">10 entegrasyon bağlantısı</li>
+                        <li data-i18n="pricing.pro.list3">Tüm kanallar dahil</li>
+                        <li data-i18n="pricing.pro.list4">Gelişmiş iş akışı oluşturucu</li>
+                        <li data-i18n="pricing.pro.list5">Özel yapay zeka eğitimi</li>
+                        <li data-i18n="pricing.pro.list6">Öncelikli destek (4 saat yanıt)</li>
+                        <li data-i18n="pricing.pro.list7">Analitik paneli</li>
+                        <li data-i18n="pricing.pro.list8">Çoklu dil desteği</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="width: 100%; text-align: center; margin-top: 2rem;" data-i18n="pricing.pro.cta">Denemeyi Başlat</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3 data-i18n="pricing.enterprise.title">Kurumsal</h3>
+                    <div class="price" data-i18n="pricing.enterprise.price">Özel</div>
+                    <p style="color: var(--gray); margin-bottom: 1.5rem;" data-i18n="pricing.enterprise.desc">Yüksek hacimli kuruluşlar için</p>
+                    <ul class="pricing-features">
+                        <li data-i18n="pricing.enterprise.list1">Sınırsız konuşma</li>
+                        <li data-i18n="pricing.enterprise.list2">Sınırsız entegrasyon</li>
+                        <li data-i18n="pricing.enterprise.list3">Özel altyapı</li>
+                        <li data-i18n="pricing.enterprise.list4">Özel yapay zeka modelleri</li>
+                        <li data-i18n="pricing.enterprise.list5">%99,9 SLA garantisi</li>
+                        <li data-i18n="pricing.enterprise.list6">Özel müşteri yöneticisi</li>
+                        <li data-i18n="pricing.enterprise.list7">White-label seçenekler</li>
+                        <li data-i18n="pricing.enterprise.list8">Şirket içi kurulum seçeneği</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%; text-align: center; margin-top: 2rem;" data-i18n="pricing.enterprise.cta">Satışla Görüş</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <div class="container">
+            <h2 data-i18n="finalCta.title" data-i18n-html="true">Yavaş yanıtlarla<br>müşteri kaybetmeyi bırakın</h2>
+            <p data-i18n="finalCta.desc">14 gün ücretsiz deneme. Kredi kartı gerekmez. 5 dakikada kurulum.</p>
+            <div class="hero-cta" style="justify-content: center;">
+                <a href="#" class="btn btn-primary" data-i18n="finalCta.primary">Ücretsiz Başla</a>
+                <a href="#" class="btn btn-secondary" data-i18n="finalCta.secondary">Demo Talep Et</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo_dark.svg" alt="Kozmopath" data-logo-light="logo.svg" data-logo-dark="logo_dark.svg" data-i18n-attr="alt:footer.logo.alt">
+                    <p data-i18n="footer.desc">Gerçekten çalışan yapay zeka destekli müşteri hizmeti. Müşterilerine önem veren işletmeler için.</p>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n="footer.product.title">Ürün</h4>
+                    <ul>
+                        <li><a href="#features" data-i18n="footer.product.features">Özellikler</a></li>
+                        <li><a href="#integrations" data-i18n="footer.product.integrations">Entegrasyonlar</a></li>
+                        <li><a href="#pricing" data-i18n="footer.product.pricing">Fiyatlandırma</a></li>
+                        <li><a href="#" data-i18n="footer.product.docs">Dokümantasyon</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n="footer.company.title">Şirket</h4>
+                    <ul>
+                        <li><a href="#" data-i18n="footer.company.about">Hakkında</a></li>
+                        <li><a href="#" data-i18n="footer.company.blog">Blog</a></li>
+                        <li><a href="#" data-i18n="footer.company.careers">Kariyer</a></li>
+                        <li><a href="#" data-i18n="footer.company.contact">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n="footer.legal.title">Yasal</h4>
+                    <ul>
+                        <li><a href="#" data-i18n="footer.legal.privacy">Gizlilik</a></li>
+                        <li><a href="#" data-i18n="footer.legal.terms">Şartlar</a></li>
+                        <li><a href="#" data-i18n="footer.legal.security">Güvenlik</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-i18n="footer.copyright">&copy; 2026 Kozmopath. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const langToggle = document.getElementById('lang-toggle');
+        const themedLogos = document.querySelectorAll('[data-logo-light][data-logo-dark]');
+        const i18nElements = document.querySelectorAll('[data-i18n]');
+        const i18nAttrElements = document.querySelectorAll('[data-i18n-attr]');
+        const safeStorage = {
+            get(key) {
+                try {
+                    return localStorage.getItem(key);
+                } catch (error) {
+                    return null;
+                }
+            },
+            set(key, value) {
+                try {
+                    localStorage.setItem(key, value);
+                } catch (error) {
+                    // Ignore storage write failures.
+                }
+            }
+        };
+
+        const translations = {
+            tr: {
+                meta: {
+                    title: 'Kozmopath - Gerçekten Çalışan Yapay Zeka Müşteri Hizmeti'
+                },
+                nav: {
+                    features: 'Özellikler',
+                    integrations: 'Entegrasyonlar',
+                    pricing: 'Fiyatlandırma',
+                    cta: 'Ücretsiz Başla',
+                    langToggle: 'EN',
+                    langToggleAria: 'İngilizceye geç'
+                },
+                hero: {
+                    title: {
+                        line1: 'Müşterileriniz yazar.',
+                        line2: 'Yapay zeka yanıtlar.',
+                        line3: 'Anında.'
+                    },
+                    subtitle: 'WhatsApp, e-posta, tüm kanallar. İşinizi, stoklarınızı, takviminizi bilen tek bir yapay zeka. Siz uyurken müşteri görüşmelerinin %94\'ünü halleder.',
+                    cta: {
+                        primary: 'Canlı Demo',
+                        secondary: 'Nasıl Çalışır??'
+                    }
+                },
+                features: {
+                    label: 'Gerçekte Özellikler',
+                    title: 'Sadece sohbet değil. Tam otomasyon.',
+                    desc: 'Gerçek işletmelerden gerçek örnekler. Jargon yok; müşteriler yazdığında gerçekten olanlar var.',
+                    order: {
+                        title: 'Müşteri: "Siparişim nerede?"',
+                        desc: 'Yapay zeka Shopify/ikas mağazanızı kontrol eder, #4521 siparişini bulur, DHL ile yolda olduğunu görür ve takip bilgisini getirir.',
+                        example: '"Merhaba Sarah! #4521 numaralı siparişiniz dün DHL ile yola çıktı. Takip kodu: DHL892... Tahmini teslimat: Yarın 17:00\'ye kadar. Başka yardımcı olabilir miyim?"',
+                        stat: 'Ortalama yanıt süresi: 1,8 saniye'
+                    },
+                    reservation: {
+                        title: 'Restoran rezervasyonu',
+                        desc: 'Müşteri "yarın 20:00\'de 4 kişilik masa" yazar',
+                        example: '"Harika! 6 Şubat saat 20:00 için 4 kişilik 7 numaralı masayı Mehmet adına ayırdım. Onay e-postanıza gönderildi."',
+                        stat: 'Rezervasyonların %92\'si insan müdahalesi olmadan'
+                    },
+                    appointment: {
+                        title: 'Hastane randevusu',
+                        desc: '"Gelecek hafta Dr. Yılmaz\'ı görmek istiyorum"',
+                        example: '"Dr. Yılmaz\'ın müsait saatleri: Pazartesi 14:00, Çarşamba 10:00, Perşembe 16:00. Hangisi size uygun?"',
+                        stat: 'Her türlü randevu sistemine bağlanır'
+                    },
+                    escalation: {
+                        title: 'Ne zaman durması gerektiğini bilir',
+                        desc: 'Müşteri: "Hasarlı ürün geldi ve bu durumdan çok rahatsızım"',
+                        example: '[Yapay zeka ekibe] "İnsan desteğine aktarılıyor - hasar şikayeti + yoğun duygu algılandı"<br>[Yapay zeka müşteriye] "Sizi hemen destek uzmanımıza bağlıyorum - hemen ilgilenecek."',
+                        followup: 'Tüm konuşma geçmişi aktarılır. Ekibiniz "Size nasıl yardımcı olabilirim?" demeden bağlamı bilerek devralır.'
+                    },
+                    dashboard: {
+                        title: 'Her şey tek yerde',
+                        desc: 'Ekibiniz tüm konuşmaları—WhatsApp, e-posta, canlı sohbet—birleşik CRM panelimiz Raven\'da görür.',
+                        list1: '→ Tüm kanallarda müşteri geçmişi',
+                        list2: '→ Yapay zeka performans metrikleri',
+                        list3: '→ İstediğiniz konuşmaya anında katılın',
+                        list4: '→ Yapay zekanın çözdüklerini ve eskalasyonları görün',
+                        stat: 'Tek panel. Uygulama değiştirme yok.'
+                    },
+                    workflows: {
+                        title: 'Sizin iş akışlarınız, bizimkiler değil',
+                        desc: 'İstediğiniz otomasyonu oluşturun. Kod gerekmez. Örnekler:',
+                        list1: '→ Stok kontrolü → İlgili ürün önerisi → Siparişi işle',
+                        list2: '→ Potansiyel müşteriyi nitelendir → Demo planla → CRM\'e ekle → Satış ekibine e-posta gönder',
+                        list3: '→ Belirtileri topla → Uygun saatleri bul → Randevu oluştur → Hazırlık bilgisi gönder',
+                        list4: '→ Sadakat puanlarını kontrol et → İndirim uygula → Rezervasyonu onayla → Yol tarifi gönder',
+                        stat: 'Sınırsız özel iş akışı dahil'
+                    }
+                },
+                integrations: {
+                    label: 'Entegrasyonlar',
+                    title: 'Her şeye bağlanır',
+                    desc: 'E-ticaretiniz, randevu sisteminiz, CRM’iniz, ne varsa. API’si varsa bağlanırız.',
+                    whatsapp: { label: 'WhatsApp', alt: 'WhatsApp' },
+                    email: { label: 'E-posta', alt: 'E-posta' },
+                    chat: { label: 'Canlı Sohbet', alt: 'Canlı Sohbet' },
+                    shopify: { label: 'Shopify', alt: 'Shopify' },
+                    ikas: { label: 'ikas' },
+                    booking: { label: 'Randevu Sistemleri' },
+                    emr: { label: 'Hastane EMR' },
+                    pos: { label: 'Restoran POS' },
+                    slack: { label: 'Slack', alt: 'Slack' }
+                },
+                useCases: {
+                    label: 'Kullanım Alanları',
+                    title: 'Kozmopath\'ı kimler kullanıyor',
+                    ecommerce: {
+                        title: 'E-Ticaret Mağazaları',
+                        desc: 'Aylık 1.000+ sipariş alan Shopify ve ikas mağazaları',
+                        list1: 'Sipariş takibi ve durum bildirimleri',
+                        list2: 'İade ve değişim otomasyonu',
+                        list3: 'Ürün önerileri',
+                        list4: 'Terk edilen sepet kurtarma',
+                        list5: 'Stok durumu kontrolleri'
+                    },
+                    healthcare: {
+                        title: 'Sağlık Kuruluşları',
+                        desc: 'Hastaneler, klinikler, diş klinikleri',
+                        list1: 'Randevu oluşturma ve yeniden planlama',
+                        list2: 'Reçete yenileme talepleri',
+                        list3: 'Test sonucu bildirimleri',
+                        list4: 'Muayene öncesi bilgilendirme',
+                        list5: 'Sigorta doğrulama'
+                    },
+                    hospitality: {
+                        title: 'Oteller ve Restoranlar',
+                        desc: 'Yoğun talep alan konaklama ve yeme-içme işletmeleri',
+                        list1: 'Oda ve masa rezervasyonları',
+                        list2: 'Mesajla giriş/çıkış',
+                        list3: 'Oda servisi siparişleri',
+                        list4: 'Yerel mekan önerileri',
+                        list5: 'Özel isteklerin yönetimi'
+                    },
+                    services: {
+                        title: 'Hizmet İşletmeleri',
+                        desc: 'Kuaförler, tamirciler, danışmanlar',
+                        list1: 'Randevu planlama',
+                        list2: 'Fiyat teklifi oluşturma',
+                        list3: 'Durum güncellemeleri',
+                        list4: 'Ödeme hatırlatıcıları',
+                        list5: 'Geri bildirim toplama'
+                    }
+                },
+                pricing: {
+                    label: 'Fiyatlandırma',
+                    title: 'Size uygun planı seçin',
+                    desc: 'Tüm planlarda sınırsız iş akışı, Raven CRM ve insan desteğine yönlendirme dahil.',
+                    perMonth: '/ay',
+                    popular: 'EN POPÜLER',
+                    starter: {
+                        title: 'Başlangıç',
+                        price: '$299',
+                        desc: 'İlk adımlarını atan küçük işletmeler için',
+                        list1: 'Aylık 2.000 yapay zeka görüşmesi',
+                        list2: '2 entegrasyon bağlantısı',
+                        list3: 'WhatsApp + E-posta',
+                        list4: 'Temel iş akışı oluşturucu',
+                        list5: 'Raven CRM erişimi',
+                        list6: 'E-posta desteği',
+                        cta: 'Ücretsiz Dene'
+                    },
+                    pro: {
+                        title: 'Profesyonel',
+                        price: '$799',
+                        desc: 'Hızla büyüyen işletmeler için',
+                        list1: 'Aylık 10.000 yapay zeka görüşmesi',
+                        list2: '10 entegrasyon bağlantısı',
+                        list3: 'Tüm kanallar dahil',
+                        list4: 'Gelişmiş iş akışı oluşturucu',
+                        list5: 'Özel yapay zeka eğitimi',
+                        list6: 'Öncelikli destek (4 saat yanıt)',
+                        list7: 'Analitik paneli',
+                        list8: 'Çoklu dil desteği',
+                        cta: 'Ücretsiz Dene'
+                    },
+                    enterprise: {
+                        title: 'Kurumsal',
+                        price: 'Özel Fiyat',
+                        desc: 'Yüksek hacimli kuruluşlar için',
+                        list1: 'Sınırsız konuşma',
+                        list2: 'Sınırsız entegrasyon',
+                        list3: 'Özel altyapı',
+                        list4: 'Özel yapay zeka modelleri',
+                        list5: '%99,9 SLA garantisi',
+                        list6: 'Özel müşteri yöneticisi',
+                        list7: 'White-label seçenekler',
+                        list8: 'Şirket içi kurulum seçeneği',
+                        cta: 'Satışla Görüşün'
+                    }
+                },
+                finalCta: {
+                    title: 'Yavaş yanıtlarla<br>müşteri kaybetmeyi bırakın',
+                    desc: '14 gün ücretsiz deneme. Kredi kartı gerekmez. 5 dakikada kurulum.',
+                    primary: 'Ücretsiz Başla',
+                    secondary: 'Demo Talep Et'
+                },
+                footer: {
+                    logo: { alt: 'Kozmopath' },
+                    desc: 'Gerçekten çalışan yapay zeka destekli müşteri hizmeti. Müşterilerine önem veren işletmeler için.',
+                    product: {
+                        title: 'Ürün',
+                        features: 'Özellikler',
+                        integrations: 'Entegrasyonlar',
+                        pricing: 'Fiyatlandırma',
+                        docs: 'Dokümantasyon'
+                    },
+                    company: {
+                        title: 'Şirket',
+                        about: 'Hakkımızda',
+                        blog: 'Blog',
+                        careers: 'Kariyer',
+                        contact: 'İletişim'
+                    },
+                    legal: {
+                        title: 'Yasal',
+                        privacy: 'Gizlilik Politikası',
+                        terms: 'Kullanım Şartları',
+                        security: 'Güvenlik'
+                    },
+                    copyright: '© 2026 Kozmopath. Tüm hakları saklıdır.'
+                },
+                theme: {
+                    toggleToLight: 'Açık temaya geç',
+                    toggleToDark: 'Koyu temaya geç'
+                }
+            },
+            en: {
+                meta: {
+                    title: 'Kozmopath - AI Customer Service That Actually Works'
+                },
+                nav: {
+                    features: 'What It Does',
+                    integrations: 'Integrations',
+                    pricing: 'Pricing',
+                    cta: 'Start Free Trial',
+                    langToggle: 'TR',
+                    langToggleAria: 'Switch language to Turkish'
+                },
+                hero: {
+                    title: {
+                        line1: 'Your customers text.',
+                        line2: 'AI responds.',
+                        line3: 'Instantly.'
+                    },
+                    subtitle: 'WhatsApp, email, every channel. One AI that knows your business, your inventory, your calendar. Handles 94% of customer conversations while you sleep.',
+                    cta: {
+                        primary: 'See It In Action',
+                        secondary: 'How It Works'
+                    }
+                },
+                features: {
+                    label: 'What It Actually Does',
+                    title: 'Not just chat. Complete automation.',
+                    desc: 'Real examples from real businesses. No buzzwords, just what happens when customers message you.',
+                    order: {
+                        title: 'Customer: "Where\'s my order?"',
+                        desc: 'AI checks your Shopify/ikas store, pulls order #4521, sees it\'s with DHL, grabs tracking.',
+                        example: '"Hi Sarah! Your order #4521 shipped yesterday via DHL. Tracking: DHL892... Expected delivery: Tomorrow by 5pm. Need anything else?"',
+                        stat: 'Avg response time: 1.8 seconds'
+                    },
+                    reservation: {
+                        title: 'Restaurant reservation',
+                        desc: 'Customer texts "table for 4 tomorrow 8pm"',
+                        example: '"Perfect! I\'ve reserved table 7 for 4 people on Feb 6 at 8:00 PM under Mehmet. Confirmation sent to your email."',
+                        stat: '92% bookings without human touch'
+                    },
+                    appointment: {
+                        title: 'Hospital appointment',
+                        desc: '"Need to see Dr. Yilmaz next week"',
+                        example: '"Dr. Yilmaz has openings: Mon 2pm, Wed 10am, Thu 4pm. Which works for you?"',
+                        stat: 'Connects to any booking system'
+                    },
+                    escalation: {
+                        title: 'When it knows to stop',
+                        desc: 'Customer: "I received a damaged product and I\'m really upset about this"',
+                        example: '[AI to team] "Escalating to human - damage complaint + emotional tone detected"<br>[AI to customer] "I\'m connecting you with our support specialist right now - they\'ll take care of this immediately."',
+                        followup: 'Full conversation history handed off. Your team jumps in with context, not "How can I help you?"'
+                    },
+                    dashboard: {
+                        title: 'Everything in one place',
+                        desc: 'Your team sees every conversation—WhatsApp, email, chat—in Raven, our unified CRM dashboard.',
+                        list1: '→ Customer history across all channels',
+                        list2: '→ AI performance metrics',
+                        list3: '→ Jump into any conversation',
+                        list4: '→ See what AI handles vs what gets escalated',
+                        stat: 'One dashboard. Zero app switching.'
+                    },
+                    workflows: {
+                        title: 'Your workflows, not ours',
+                        desc: 'Build any automation flow. No coding. Examples:',
+                        list1: '→ Check inventory → Upsell related products → Process order',
+                        list2: '→ Qualify lead → Schedule demo → Add to CRM → Email sales team',
+                        list3: '→ Collect symptoms → Find available slots → Book appointment → Send prep instructions',
+                        list4: '→ Check loyalty points → Apply discount → Confirm booking → Send directions',
+                        stat: 'Unlimited custom workflows included'
+                    }
+                },
+                integrations: {
+                    label: 'Integrations',
+                    title: 'Plugs into everything',
+                    desc: 'Your e-commerce, booking systems, CRM, whatever. If it has an API, we connect.',
+                    whatsapp: { label: 'WhatsApp', alt: 'WhatsApp' },
+                    email: { label: 'Email', alt: 'Email' },
+                    chat: { label: 'Live Chat', alt: 'Live Chat' },
+                    shopify: { label: 'Shopify', alt: 'Shopify' },
+                    ikas: { label: 'ikas' },
+                    booking: { label: 'Booking Systems' },
+                    emr: { label: 'Hospital EMR' },
+                    pos: { label: 'Restaurant POS' },
+                    slack: { label: 'Slack', alt: 'Slack' }
+                },
+                useCases: {
+                    label: 'Use Cases',
+                    title: 'Who uses Kozmopath',
+                    ecommerce: {
+                        title: 'E-Commerce Stores',
+                        desc: 'Shopify & ikas stores handling 1,000+ orders/month',
+                        list1: 'Order tracking & status updates',
+                        list2: 'Returns & exchanges automation',
+                        list3: 'Product recommendations',
+                        list4: 'Cart abandonment recovery',
+                        list5: 'Inventory availability checks'
+                    },
+                    healthcare: {
+                        title: 'Healthcare Providers',
+                        desc: 'Hospitals, clinics, dental offices',
+                        list1: 'Appointment booking & rescheduling',
+                        list2: 'Prescription refill requests',
+                        list3: 'Test result notifications',
+                        list4: 'Pre-visit instructions',
+                        list5: 'Insurance verification'
+                    },
+                    hospitality: {
+                        title: 'Hotels & Restaurants',
+                        desc: 'Hospitality businesses with high inquiry volume',
+                        list1: 'Room/table reservations',
+                        list2: 'Check-in/check-out via messaging',
+                        list3: 'Room service orders',
+                        list4: 'Local recommendations',
+                        list5: 'Special requests handling'
+                    },
+                    services: {
+                        title: 'Service Businesses',
+                        desc: 'Salons, repair shops, consultants',
+                        list1: 'Appointment scheduling',
+                        list2: 'Service quotations',
+                        list3: 'Status updates',
+                        list4: 'Payment reminders',
+                        list5: 'Feedback collection'
+                    }
+                },
+                pricing: {
+                    label: 'Pricing',
+                    title: 'Pick your scale',
+                    desc: 'All plans include unlimited workflows, Raven CRM, and human handoff.',
+                    perMonth: '/mo',
+                    popular: 'MOST POPULAR',
+                    starter: {
+                        title: 'Starter',
+                        price: '$299',
+                        desc: 'For small businesses testing the waters',
+                        list1: '2,000 AI conversations/month',
+                        list2: '2 integration connections',
+                        list3: 'WhatsApp + Email',
+                        list4: 'Basic workflow builder',
+                        list5: 'Raven CRM access',
+                        list6: 'Email support',
+                        cta: 'Start Trial'
+                    },
+                    pro: {
+                        title: 'Professional',
+                        price: '$799',
+                        desc: 'For growing businesses at scale',
+                        list1: '10,000 AI conversations/month',
+                        list2: '10 integration connections',
+                        list3: 'All channels included',
+                        list4: 'Advanced workflow builder',
+                        list5: 'Custom AI training',
+                        list6: 'Priority support (4h response)',
+                        list7: 'Analytics dashboard',
+                        list8: 'Multi-language support',
+                        cta: 'Start Trial'
+                    },
+                    enterprise: {
+                        title: 'Enterprise',
+                        price: 'Custom',
+                        desc: 'For organizations with serious volume',
+                        list1: 'Unlimited conversations',
+                        list2: 'Unlimited integrations',
+                        list3: 'Dedicated infrastructure',
+                        list4: 'Custom AI models',
+                        list5: '99.9% SLA guarantee',
+                        list6: 'Dedicated account manager',
+                        list7: 'White-label options',
+                        list8: 'On-premise deployment available',
+                        cta: 'Contact Sales'
+                    }
+                },
+                finalCta: {
+                    title: 'Stop losing customers<br>to slow responses',
+                    desc: '14-day free trial. No credit card. 5 minute setup.',
+                    primary: 'Start Free Trial',
+                    secondary: 'Schedule Demo'
+                },
+                footer: {
+                    logo: { alt: 'Kozmopath' },
+                    desc: 'AI-powered customer service that actually works. Built for businesses that care about their customers.',
+                    product: {
+                        title: 'Product',
+                        features: 'Features',
+                        integrations: 'Integrations',
+                        pricing: 'Pricing',
+                        docs: 'Documentation'
+                    },
+                    company: {
+                        title: 'Company',
+                        about: 'About',
+                        blog: 'Blog',
+                        careers: 'Careers',
+                        contact: 'Contact'
+                    },
+                    legal: {
+                        title: 'Legal',
+                        privacy: 'Privacy',
+                        terms: 'Terms',
+                        security: 'Security'
+                    },
+                    copyright: '© 2026 Kozmopath. All rights reserved.'
+                },
+                theme: {
+                    toggleToLight: 'Switch to light theme',
+                    toggleToDark: 'Switch to dark theme'
+                }
+            }
+        };
+
+        const resolveKey = (locale, key) => {
+            return key.split('.').reduce((acc, part) => (acc && acc[part] !== undefined ? acc[part] : null), translations[locale]);
+        };
+
+        const applyTranslations = (locale) => {
+            const activeLocale = translations[locale] ? locale : 'tr';
+            i18nElements.forEach((el) => {
+                const key = el.dataset.i18n;
+                if (!key) return;
+                const value = resolveKey(activeLocale, key);
+                if (value === null || value === undefined) return;
+                if (el.dataset.i18nHtml === 'true') {
+                    el.innerHTML = value;
+                } else {
+                    el.textContent = value;
+                }
+            });
+
+            i18nAttrElements.forEach((el) => {
+                const mappings = el.dataset.i18nAttr.split(',').map((pair) => pair.trim()).filter(Boolean);
+                mappings.forEach((pair) => {
+                    const [attr, key] = pair.split(':').map((part) => part.trim());
+                    if (!attr || !key) return;
+                    const value = resolveKey(activeLocale, key);
+                    if (value !== null && value !== undefined) {
+                        el.setAttribute(attr, value);
+                    }
+                });
+            });
+
+            document.documentElement.lang = activeLocale;
+            document.title = translations[activeLocale].meta.title;
+            if (langToggle) {
+                langToggle.textContent = translations[activeLocale].nav.langToggle;
+                langToggle.setAttribute('aria-label', translations[activeLocale].nav.langToggleAria);
+            }
+            if (themeToggle) {
+                const isLight = document.documentElement.dataset.theme === 'light';
+                const labelKey = isLight ? 'theme.toggleToDark' : 'theme.toggleToLight';
+                const label = resolveKey(activeLocale, labelKey) || (isLight ? translations.en.theme.toggleToDark : translations.en.theme.toggleToLight);
+                themeToggle.setAttribute('aria-label', label);
+            }
+        };
+
+        const getPreferredLanguage = () => {
+            const stored = safeStorage.get('language');
+            if (stored === 'tr' || stored === 'en') {
+                return stored;
+            }
+            return 'tr';
+        };
+
+        const getPreferredTheme = () => {
+            const stored = safeStorage.get('theme');
+            if (stored === 'light' || stored === 'dark') {
+                return stored;
+            }
+            if (window.matchMedia) {
+                return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            }
+            return 'dark';
+        };
+
+        const applyTheme = (theme, { persist = false } = {}) => {
+            const isLight = theme === 'light';
+            document.documentElement.dataset.theme = isLight ? 'light' : 'dark';
+            if (persist) {
+                safeStorage.set('theme', theme);
+            }
+            if (themeToggle) {
+                themeToggle.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+                const lang = document.documentElement.lang || 'tr';
+                const labelKey = isLight ? 'theme.toggleToDark' : 'theme.toggleToLight';
+                const label = resolveKey(lang, labelKey) || (isLight ? translations.en.theme.toggleToDark : translations.en.theme.toggleToLight);
+                themeToggle.setAttribute('aria-label', label);
+            }
+            themedLogos.forEach((logo) => {
+                logo.src = isLight ? logo.dataset.logoLight : logo.dataset.logoDark;
+            });
+        };
+
+        const initialLanguage = getPreferredLanguage();
+        applyTranslations(initialLanguage);
+
+        const initialTheme = document.documentElement.dataset.theme || getPreferredTheme();
+        applyTheme(initialTheme, { persist: false });
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const nextTheme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+                applyTheme(nextTheme, { persist: true });
+            });
+        }
+
+        if (langToggle) {
+            langToggle.addEventListener('click', () => {
+                const current = document.documentElement.lang === 'en' ? 'en' : 'tr';
+                const next = current === 'tr' ? 'en' : 'tr';
+                safeStorage.set('language', next);
+                applyTranslations(next);
+                const currentTheme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+                applyTheme(currentTheme, { persist: false });
+            });
+        }
+
+        document.querySelectorAll('a[href="#"]').forEach((link) => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+            });
+        });
+
+        const prefersReducedMotion = window.matchMedia
+            ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            : false;
+
+        const animatedElements = document.querySelectorAll('.feature-block, .use-case-card, .pricing-card');
+
+        if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                },
+                { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+            );
+
+            animatedElements.forEach((el) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                observer.observe(el);
+            });
+        } else {
+            animatedElements.forEach((el) => {
+                el.style.opacity = '1';
+                el.style.transform = 'none';
+            });
+        }
+    </script>
+</body>
+</html>
