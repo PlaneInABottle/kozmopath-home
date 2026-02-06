@@ -303,6 +303,7 @@
         .hero {
             padding: 7.5rem 0 5rem;
             position: relative;
+            overflow: hidden;
         }
 
         .hero::before {
@@ -481,6 +482,7 @@
             padding: 6.5rem 0;
             border-top: 1px solid var(--border);
             position: relative;
+            overflow: hidden;
         }
 
         .section-intro {
@@ -1916,6 +1918,342 @@
             background: linear-gradient(180deg, var(--darker) 0%, #f0efec 100%);
         }
 
+        /* ============================================================
+           CREATIVE LAYOUT 1: Diagonal Split Hero
+           ============================================================ */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.08) 0%, rgba(255, 107, 53, 0.05) 100%);
+            clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        [data-theme="light"] .hero::after {
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.12) 0%, rgba(255, 107, 53, 0.08) 100%);
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-vignette {
+            position: relative;
+            transform: rotate(-2deg);
+        }
+
+        .hero-vignette .hero-card:last-child {
+            transform: translateX(-40px) translateY(20px) rotate(1deg);
+        }
+
+        @media (max-width: 968px) {
+            .hero::after {
+                width: 100%;
+                clip-path: polygon(0 60%, 100% 40%, 100% 100%, 0% 100%);
+                opacity: 0.5;
+            }
+
+            .hero-vignette {
+                transform: rotate(0deg);
+            }
+
+            .hero-vignette .hero-card:last-child {
+                transform: none;
+            }
+        }
+
+        /* ============================================================
+           CREATIVE LAYOUT 2: SVG Wave Dividers
+           ============================================================ */
+        .wave-divider {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            margin: -1px 0;
+        }
+
+        .wave-divider svg {
+            display: block;
+            width: 100%;
+            height: 60px;
+        }
+
+        .wave-divider.wave-flip svg {
+            transform: scaleY(-1);
+        }
+
+        .wave-divider svg path {
+            fill: var(--dark);
+        }
+
+        .wave-divider.wave-accent svg path {
+            fill: rgba(96, 165, 250, 0.03);
+        }
+
+        [data-theme="light"] .wave-divider.wave-accent svg path {
+            fill: rgba(96, 165, 250, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .wave-divider svg {
+                height: 35px;
+            }
+        }
+
+        /* ============================================================
+           CREATIVE LAYOUT 3: Rotated/Offset Use-Case Cards
+           ============================================================ */
+        .use-case-card:nth-child(1) {
+            transform: rotate(-1deg) translateY(-10px);
+        }
+
+        .use-case-card:nth-child(2) {
+            transform: rotate(1deg) translateY(10px);
+        }
+
+        .use-case-card:nth-child(3) {
+            transform: rotate(-0.5deg) translateY(5px);
+        }
+
+        .use-case-card:nth-child(4) {
+            transform: rotate(1.5deg) translateY(-5px);
+        }
+
+        .use-case-card:hover {
+            transform: rotate(0deg) translateY(-8px) !important;
+        }
+
+        @media (max-width: 768px) {
+            .use-case-card:nth-child(1),
+            .use-case-card:nth-child(2),
+            .use-case-card:nth-child(3),
+            .use-case-card:nth-child(4) {
+                transform: none;
+            }
+        }
+
+        /* ============================================================
+           CREATIVE LAYOUT 4: Scrolling Marquee Integrations
+           ============================================================ */
+        .integration-marquee-wrapper {
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .marquee-row {
+            display: flex;
+            gap: 1.5rem;
+            animation: marquee 30s linear infinite;
+            width: max-content;
+            padding: 0.5rem 0;
+        }
+
+        .marquee-row:nth-child(2) {
+            animation-direction: reverse;
+            animation-duration: 35s;
+            margin-top: 1.5rem;
+        }
+
+        .integration-marquee-wrapper .integration-item {
+            border-radius: 999px;
+            padding: 1rem 1.5rem;
+            flex-shrink: 0;
+            min-width: 140px;
+            min-height: auto;
+            flex-direction: row;
+            gap: 0.75rem;
+        }
+
+        .integration-marquee-wrapper .integration-icon {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+
+        .integration-marquee-wrapper .integration-icon img,
+        .integration-marquee-wrapper .integration-icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @media (max-width: 768px) {
+            .marquee-row {
+                animation-duration: 20s;
+            }
+
+            .marquee-row:nth-child(2) {
+                animation-duration: 25s;
+            }
+
+            .integration-marquee-wrapper .integration-item {
+                min-width: 120px;
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        /* ============================================================
+           CREATIVE LAYOUT 5: Overlapping Pricing Cards
+           ============================================================ */
+        .pricing-grid {
+            perspective: 1000px;
+        }
+
+        .pricing-card:nth-child(1) {
+            transform: translateX(30px) translateY(20px) rotate(-1deg);
+            z-index: 1;
+        }
+
+        .pricing-card:nth-child(2) {
+            transform: translateY(0) scale(1.05);
+            z-index: 3;
+        }
+
+        .pricing-card:nth-child(3) {
+            transform: translateX(-30px) translateY(20px) rotate(1deg);
+            z-index: 1;
+        }
+
+        .pricing-card:nth-child(1):hover {
+            transform: translateX(30px) translateY(15px) rotate(-0.5deg) scale(1.02);
+            z-index: 4;
+        }
+
+        .pricing-card:nth-child(2):hover {
+            transform: translateY(-5px) scale(1.08);
+            z-index: 4;
+        }
+
+        .pricing-card:nth-child(3):hover {
+            transform: translateX(-30px) translateY(15px) rotate(0.5deg) scale(1.02);
+            z-index: 4;
+        }
+
+        @media (max-width: 968px) {
+            .pricing-card:nth-child(1),
+            .pricing-card:nth-child(2),
+            .pricing-card:nth-child(3) {
+                transform: none;
+            }
+
+            .pricing-card:nth-child(1):hover,
+            .pricing-card:nth-child(2):hover,
+            .pricing-card:nth-child(3):hover {
+                transform: translateY(-3px);
+            }
+        }
+
+        /* ============================================================
+           CREATIVE LAYOUT 6: Decorative Floating Circles
+           ============================================================ */
+        .deco-circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            pointer-events: none;
+            animation: decoFloat 15s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .deco-circle-1 {
+            width: 300px;
+            height: 300px;
+            top: 20%;
+            right: -150px;
+        }
+
+        .deco-circle-2 {
+            width: 200px;
+            height: 200px;
+            bottom: 30%;
+            left: -100px;
+            border-color: rgba(255, 107, 53, 0.1);
+            animation-duration: 12s;
+            animation-direction: reverse;
+        }
+
+        .deco-circle-3 {
+            width: 250px;
+            height: 250px;
+            top: 10%;
+            left: -125px;
+            border-color: rgba(96, 165, 250, 0.1);
+            animation-duration: 18s;
+        }
+
+        .deco-circle-4 {
+            width: 180px;
+            height: 180px;
+            bottom: 15%;
+            right: -90px;
+            border-color: rgba(255, 107, 53, 0.12);
+            animation-duration: 14s;
+            animation-direction: reverse;
+        }
+
+        .deco-circle-5 {
+            width: 220px;
+            height: 220px;
+            top: 25%;
+            right: -110px;
+            animation-duration: 16s;
+        }
+
+        .deco-circle-6 {
+            width: 160px;
+            height: 160px;
+            bottom: 20%;
+            left: -80px;
+            border-color: rgba(255, 107, 53, 0.08);
+            animation-duration: 13s;
+            animation-direction: reverse;
+        }
+
+        [data-theme="light"] .deco-circle {
+            border-color: rgba(96, 165, 250, 0.2);
+        }
+
+        [data-theme="light"] .deco-circle-2,
+        [data-theme="light"] .deco-circle-4,
+        [data-theme="light"] .deco-circle-6 {
+            border-color: rgba(255, 107, 53, 0.15);
+        }
+
+        @keyframes decoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        /* Ensure creative layout animations respect prefers-reduced-motion */
+        @media (prefers-reduced-motion: reduce) {
+            .hero::after { clip-path: none; }
+            .hero-vignette { transform: none !important; }
+            .hero-vignette .hero-card:last-child { transform: none !important; }
+            .use-case-card:nth-child(1),
+            .use-case-card:nth-child(2),
+            .use-case-card:nth-child(3),
+            .use-case-card:nth-child(4) { transform: none !important; }
+            .marquee-row { animation: none !important; }
+            .pricing-card:nth-child(1),
+            .pricing-card:nth-child(2),
+            .pricing-card:nth-child(3) { transform: none !important; }
+            .pricing-card:nth-child(1):hover,
+            .pricing-card:nth-child(2):hover,
+            .pricing-card:nth-child(3):hover { transform: none !important; }
+            .deco-circle { animation: none !important; display: none !important; }
+        }
+
     </style>
 </head>
 <body>
@@ -1972,6 +2310,9 @@
         <div class="hero-blob hero-blob--blue" aria-hidden="true"></div>
         <div class="hero-blob hero-blob--orange" aria-hidden="true"></div>
         <div class="hero-blob hero-blob--purple" aria-hidden="true"></div>
+        <!-- Creative Layout 6: Decorative floating circles - Hero -->
+        <div class="deco-circle deco-circle-1" aria-hidden="true"></div>
+        <div class="deco-circle deco-circle-2" aria-hidden="true"></div>
 
         <div class="container hero-grid">
             <div>
@@ -2009,7 +2350,17 @@
         </div>
     </section>
 
+    <!-- Creative Layout 2: Wave divider after hero -->
+    <div class="wave-divider" aria-hidden="true">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+            <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,35 1440,30 L1440,60 L0,60 Z"></path>
+        </svg>
+    </div>
+
     <section class="what-it-does" id="features">
+        <!-- Creative Layout 6: Decorative floating circles - Features -->
+        <div class="deco-circle deco-circle-3" aria-hidden="true"></div>
+        <div class="deco-circle deco-circle-4" aria-hidden="true"></div>
         <div class="container">
             <div class="section-intro">
                 <span class="section-label" data-i18n="features.label">Gerçekte Ne Yapar</span>
@@ -2130,6 +2481,13 @@
         </div>
     </section>
 
+    <!-- Creative Layout 2: Wave divider after features -->
+    <div class="wave-divider wave-flip" aria-hidden="true">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+            <path d="M0,0 C240,40 480,10 720,30 C960,50 1200,10 1440,30 L1440,60 L0,60 Z"></path>
+        </svg>
+    </div>
+
 <section class="integrations" id="integrations">
         <div class="container">
             <div class="section-intro">
@@ -2140,9 +2498,11 @@
                 </p>
             </div>
 
-            <div class="integration-category">
-                <h3 class="integration-category-label" data-i18n="integrations.channels">İletişim Kanalları</h3>
-                <div class="integration-grid">
+            <!-- Creative Layout 4: Scrolling Marquee Integrations -->
+            <div class="integration-marquee-wrapper">
+                <!-- Row 1: Channels (scrolls right) -->
+                <div class="marquee-row">
+                    <!-- Original items -->
                     <div class="integration-item tone-blue">
                         <div class="integration-icon">
                             <img src="assets/channels/whatsapp.png" alt="WhatsApp" data-i18n-attr="alt:integrations.whatsapp.alt">
@@ -2167,12 +2527,6 @@
                         </div>
                         <h4 data-i18n="integrations.slack.label">Slack</h4>
                     </div>
-                </div>
-            </div>
-
-            <div class="integration-category">
-                <h3 class="integration-category-label" data-i18n="integrations.platforms">Platformlar & Sistemler</h3>
-                <div class="integration-grid">
                     <div class="integration-item tone-blue">
                         <div class="integration-icon">
                             <img src="assets/integrations/shopify.png" alt="Shopify" data-i18n-attr="alt:integrations.shopify.alt">
@@ -2188,6 +2542,50 @@
                         </div>
                         <h4 data-i18n="integrations.ikas.label">ikas</h4>
                     </div>
+                    <!-- Duplicated items for seamless loop -->
+                    <div class="integration-item tone-blue" aria-hidden="true">
+                        <div class="integration-icon">
+                            <img src="assets/channels/whatsapp.png" alt="WhatsApp">
+                        </div>
+                        <h4>WhatsApp</h4>
+                    </div>
+                    <div class="integration-item tone-orange" aria-hidden="true">
+                        <div class="integration-icon">
+                            <img src="assets/channels/email.png" alt="Email">
+                        </div>
+                        <h4>E-posta</h4>
+                    </div>
+                    <div class="integration-item tone-blue" aria-hidden="true">
+                        <div class="integration-icon">
+                            <img src="assets/channels/website.png" alt="Canlı Sohbet">
+                        </div>
+                        <h4>Canlı Sohbet</h4>
+                    </div>
+                    <div class="integration-item tone-orange" aria-hidden="true">
+                        <div class="integration-icon">
+                            <img src="assets/integrations/slack.png" alt="Slack">
+                        </div>
+                        <h4>Slack</h4>
+                    </div>
+                    <div class="integration-item tone-blue" aria-hidden="true">
+                        <div class="integration-icon">
+                            <img src="assets/integrations/shopify.png" alt="Shopify">
+                        </div>
+                        <h4>Shopify</h4>
+                    </div>
+                    <div class="integration-item tone-orange" aria-hidden="true">
+                        <div class="integration-icon">
+                            <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="120" height="40" rx="8" fill="#1a1a1a"/>
+                                <text x="60" y="26" font-family="DM Sans, sans-serif" font-size="18" font-weight="700" fill="#60a5fa" text-anchor="middle">ikas</text>
+                            </svg>
+                        </div>
+                        <h4>ikas</h4>
+                    </div>
+                </div>
+                <!-- Row 2: Platforms (scrolls left / reverse) -->
+                <div class="marquee-row">
+                    <!-- Original items -->
                     <div class="integration-item tone-blue">
                         <div class="integration-icon">
                             <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2220,6 +2618,76 @@
                             </svg>
                         </div>
                         <h4 data-i18n="integrations.pos.label">Restoran POS</h4>
+                    </div>
+                    <div class="integration-item tone-orange">
+                        <div class="integration-icon">
+                            <img src="assets/channels/whatsapp.png" alt="WhatsApp">
+                        </div>
+                        <h4>WhatsApp</h4>
+                    </div>
+                    <div class="integration-item tone-blue">
+                        <div class="integration-icon">
+                            <img src="assets/channels/email.png" alt="Email">
+                        </div>
+                        <h4>E-posta</h4>
+                    </div>
+                    <div class="integration-item tone-orange">
+                        <div class="integration-icon">
+                            <img src="assets/integrations/slack.png" alt="Slack">
+                        </div>
+                        <h4>Slack</h4>
+                    </div>
+                    <!-- Duplicated items for seamless loop -->
+                    <div class="integration-item tone-blue" aria-hidden="true">
+                        <div class="integration-icon">
+                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="64" height="64" rx="12" fill="#60a5fa"/>
+                                <path d="M20 16h24v4H20v-4zm0 8h24v4H20v-4zm0 8h16v4H20v-4z" fill="white"/>
+                                <circle cx="46" cy="44" r="8" fill="#ff6b35"/>
+                                <path d="M46 40v8M42 44h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h4>Randevu</h4>
+                    </div>
+                    <div class="integration-item tone-orange" aria-hidden="true">
+                        <div class="integration-icon">
+                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="64" height="64" rx="12" fill="#ff6b35"/>
+                                <path d="M32 16l8 8-8 8-8-8 8-8z" fill="white"/>
+                                <rect x="24" y="36" width="16" height="12" rx="2" fill="white"/>
+                                <circle cx="32" cy="26" r="3" fill="#ff6b35"/>
+                            </svg>
+                        </div>
+                        <h4>Hastane EMR</h4>
+                    </div>
+                    <div class="integration-item tone-blue" aria-hidden="true">
+                        <div class="integration-icon">
+                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="64" height="64" rx="12" fill="#60a5fa"/>
+                                <circle cx="32" cy="24" r="8" fill="white"/>
+                                <path d="M20 48c0-6.627 5.373-12 12-12s12 5.373 12 12v4H20v-4z" fill="white"/>
+                                <path d="M28 24h8M32 20v8" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h4>Restoran POS</h4>
+                    </div>
+                    <div class="integration-item tone-orange" aria-hidden="true">
+                        <div class="integration-icon">
+                            <img src="assets/channels/whatsapp.png" alt="WhatsApp">
+                        </div>
+                        <h4>WhatsApp</h4>
+                    </div>
+                    <div class="integration-item tone-blue" aria-hidden="true">
+                        <div class="integration-icon">
+                            <img src="assets/channels/email.png" alt="Email">
+                        </div>
+                        <h4>E-posta</h4>
+                    </div>
+                    <div class="integration-item tone-orange" aria-hidden="true">
+                        <div class="integration-icon">
+                            <img src="assets/integrations/slack.png" alt="Slack">
+                        </div>
+                        <h4>Slack</h4>
                     </div>
                 </div>
             </div>
@@ -2284,7 +2752,17 @@
         </div>
     </section>
 
+    <!-- Creative Layout 2: Wave divider before pricing -->
+    <div class="wave-divider wave-accent" aria-hidden="true">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+            <path d="M0,40 C180,20 360,50 540,30 C720,10 900,50 1080,30 C1260,10 1380,40 1440,30 L1440,60 L0,60 Z"></path>
+        </svg>
+    </div>
+
     <section class="pricing" id="pricing">
+        <!-- Creative Layout 6: Decorative floating circles - Pricing -->
+        <div class="deco-circle deco-circle-5" aria-hidden="true"></div>
+        <div class="deco-circle deco-circle-6" aria-hidden="true"></div>
         <div class="container">
             <div class="section-intro">
                 <span class="section-label" data-i18n="pricing.label">Fiyatlandırma</span>
@@ -2359,6 +2837,13 @@
         </div>
     </section>
     </main>
+
+    <!-- Creative Layout 2: Wave divider before footer -->
+    <div class="wave-divider wave-flip" aria-hidden="true">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+            <path d="M0,20 C360,50 720,10 1080,40 C1260,50 1380,20 1440,30 L1440,60 L0,60 Z"></path>
+        </svg>
+    </div>
 
     <button class="scroll-to-top" id="scroll-to-top" type="button" aria-label="Scroll to top">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
