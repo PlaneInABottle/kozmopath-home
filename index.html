@@ -1322,9 +1322,468 @@
             visibility: visible;
             transform: translateX(-50%) scale(1);
         }
+
+        /* ============================================================
+           ENHANCEMENT 1: Hero animated gradient blobs
+           ============================================================ */
+        .hero-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+        }
+
+        .hero-blob--blue {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.22), transparent 70%);
+            top: -80px;
+            left: -120px;
+            animation: blobFloat1 8s ease-in-out infinite;
+        }
+
+        .hero-blob--orange {
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.16), transparent 70%);
+            bottom: -60px;
+            right: -100px;
+            animation: blobFloat2 10s ease-in-out infinite;
+        }
+
+        .hero-blob--purple {
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.12), transparent 70%);
+            top: 40%;
+            left: 50%;
+            animation: blobFloat3 12s ease-in-out infinite;
+        }
+
+        [data-theme="light"] .hero-blob--blue {
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.18), transparent 70%);
+        }
+
+        [data-theme="light"] .hero-blob--orange {
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.12), transparent 70%);
+        }
+
+        [data-theme="light"] .hero-blob--purple {
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.10), transparent 70%);
+        }
+
+        @keyframes blobFloat1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, 30px) scale(1.05); }
+            66% { transform: translate(-20px, -15px) scale(0.95); }
+        }
+
+        @keyframes blobFloat2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-35px, -25px) scale(1.08); }
+            66% { transform: translate(25px, 20px) scale(0.92); }
+        }
+
+        @keyframes blobFloat3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        /* ============================================================
+           ENHANCEMENT 2: CTA button gradient + glow
+           ============================================================ */
+        .btn-primary {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
+            color: var(--text-on-accent);
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6, #8b5cf6);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            filter: blur(12px);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 50%, #3b82f6 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.35), 0 0 60px rgba(96, 165, 250, 0.15);
+        }
+
+        .btn-primary:hover::before {
+            opacity: 0.6;
+            animation: ctaGlowPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes ctaGlowPulse {
+            0%, 100% { opacity: 0.4; filter: blur(12px); }
+            50% { opacity: 0.7; filter: blur(18px); }
+        }
+
+        /* ============================================================
+           ENHANCEMENT 3: Featured pricing card animated glow border
+           ============================================================ */
+        .pricing-card.featured {
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            transform: scale(1.03);
+            z-index: 1;
+        }
+
+        .pricing-card.featured::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #60a5fa, #8b5cf6, #f97316, #60a5fa);
+            background-size: 300% 300%;
+            z-index: -1;
+            animation: featuredBorderGlow 4s ease infinite;
+        }
+
+        .pricing-card.featured::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            background: var(--card);
+            z-index: -1;
+        }
+
+        [data-theme="light"] .pricing-card.featured::after {
+            background: var(--card);
+        }
+
+        .pricing-card.featured {
+            background: transparent;
+            box-shadow: 0 24px 70px rgba(96, 165, 250, 0.15), 0 0 40px rgba(96, 165, 250, 0.08);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 30px 80px rgba(96, 165, 250, 0.25), 0 0 60px rgba(96, 165, 250, 0.12);
+        }
+
+        @keyframes featuredBorderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ============================================================
+           ENHANCEMENT 4: Glassmorphism hero cards
+           ============================================================ */
+        .hero-card {
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow:
+                0 18px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        [data-theme="light"] .hero-card {
+            background: rgba(255, 255, 255, 0.65);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow:
+                0 18px 40px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        /* ============================================================
+           ENHANCEMENT 5: Scroll progress indicator
+           ============================================================ */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #60a5fa, #8b5cf6, #f97316);
+            z-index: 10000;
+            transition: none;
+            pointer-events: none;
+        }
+
+        /* ============================================================
+           ENHANCEMENT 6: Staggered card entrance animations
+           ============================================================ */
+        .stagger-reveal {
+            opacity: 0;
+            transform: translateY(40px) scale(0.97);
+        }
+
+        .stagger-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ============================================================
+           ENHANCEMENT 7: Sequential chat bubble reveal
+           ============================================================ */
+        .chat-bubble-animate {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        .chat-bubble-animate.chat-revealed {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ============================================================
+           ENHANCEMENT 8: Layered shadow system
+           ============================================================ */
+        .feature-block {
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.08),
+                0 8px 24px rgba(0, 0, 0, 0.12),
+                0 24px 60px rgba(0, 0, 0, 0.16);
+        }
+
+        .feature-block:hover {
+            box-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.1),
+                0 12px 32px rgba(0, 0, 0, 0.16),
+                0 32px 80px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="light"] .feature-block {
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.04),
+                0 8px 24px rgba(0, 0, 0, 0.06),
+                0 24px 60px rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] .feature-block:hover {
+            box-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.06),
+                0 12px 32px rgba(0, 0, 0, 0.08),
+                0 32px 80px rgba(0, 0, 0, 0.12);
+        }
+
+        .use-case-card {
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.06),
+                0 6px 18px rgba(0, 0, 0, 0.1),
+                0 18px 48px rgba(0, 0, 0, 0.14);
+        }
+
+        .use-case-card:hover {
+            box-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.08),
+                0 10px 28px rgba(0, 0, 0, 0.14),
+                0 24px 60px rgba(0, 0, 0, 0.18);
+        }
+
+        [data-theme="light"] .use-case-card {
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.03),
+                0 6px 18px rgba(0, 0, 0, 0.05),
+                0 18px 48px rgba(0, 0, 0, 0.07);
+        }
+
+        [data-theme="light"] .use-case-card:hover {
+            box-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.04),
+                0 10px 28px rgba(0, 0, 0, 0.07),
+                0 24px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card {
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.06),
+                0 8px 24px rgba(0, 0, 0, 0.1),
+                0 20px 50px rgba(0, 0, 0, 0.14);
+        }
+
+        [data-theme="light"] .pricing-card {
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.03),
+                0 8px 24px rgba(0, 0, 0, 0.05),
+                0 20px 50px rgba(0, 0, 0, 0.07);
+        }
+
+        /* ============================================================
+           ENHANCEMENT 9: Checkmark icons in pricing
+           ============================================================ */
+        .pricing-features li::before {
+            content: '';
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            margin-right: 0.75rem;
+            vertical-align: middle;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2360a5fa' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            flex-shrink: 0;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Also replace use-case bullet dots with checkmarks */
+        .use-case-card li::before {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 0.75rem;
+            vertical-align: middle;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2360a5fa' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            flex-shrink: 0;
+        }
+
+        .use-case-card li {
+            display: flex;
+            align-items: center;
+        }
+
+        /* ============================================================
+           ENHANCEMENT 10: Nav scroll-spy active indicator (pill)
+           ============================================================ */
+        nav a.nav-active {
+            color: var(--blue);
+            background: rgba(96, 165, 250, 0.1);
+        }
+
+        [data-theme="light"] nav a.nav-active {
+            background: rgba(96, 165, 250, 0.12);
+        }
+
+        /* ============================================================
+           ENHANCEMENT 11: Section label accent line
+           ============================================================ */
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-label::before {
+            content: '';
+            display: inline-block;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--orange), transparent);
+            border-radius: 2px;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .section-label.label-visible::before {
+            width: 32px;
+        }
+
+        /* ============================================================
+           ENHANCEMENT 12: Feature number stroke text
+           ============================================================ */
+        .feature-number {
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(96, 165, 250, 0.15);
+            text-stroke: 1.5px rgba(96, 165, 250, 0.15);
+            font-size: 5rem;
+        }
+
+        .feature-block.tone-orange .feature-number {
+            -webkit-text-stroke: 1.5px rgba(255, 107, 53, 0.15);
+            text-stroke: 1.5px rgba(255, 107, 53, 0.15);
+        }
+
+        [data-theme="light"] .feature-number {
+            -webkit-text-stroke: 1.5px rgba(96, 165, 250, 0.2);
+            text-stroke: 1.5px rgba(96, 165, 250, 0.2);
+        }
+
+        [data-theme="light"] .feature-block.tone-orange .feature-number {
+            -webkit-text-stroke: 1.5px rgba(255, 107, 53, 0.2);
+            text-stroke: 1.5px rgba(255, 107, 53, 0.2);
+        }
+
+        /* ============================================================
+           ENHANCEMENT 13: Use case card top border + glow
+           ============================================================ */
+        .use-case-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .use-case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--orange), rgba(255, 107, 53, 0.2));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .use-case-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.08), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .use-case-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .use-case-card:hover::after {
+            opacity: 1;
+        }
+
+        .use-case-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Ensure prefers-reduced-motion is respected for new animations */
+        @media (prefers-reduced-motion: reduce) {
+            .hero-blob { animation: none !important; }
+            .btn-primary::before { animation: none !important; opacity: 0 !important; }
+            .pricing-card.featured::before { animation: none !important; }
+            .stagger-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+            .chat-bubble-animate { opacity: 1 !important; transform: none !important; transition: none !important; }
+            .section-label::before { width: 32px !important; transition: none !important; }
+            .use-case-card::before { transform: scaleX(1) !important; transition: none !important; }
+            .scroll-progress { display: none !important; }
+        }
     </style>
 </head>
 <body>
+    <!-- Enhancement 5: Scroll progress indicator -->
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
     <a href="#features" class="skip-link">Skip to main content</a>
     <nav aria-label="Main navigation">
         <div class="container">
@@ -1371,6 +1830,11 @@
 
     <main>
     <section class="hero">
+        <!-- Enhancement 1: Animated gradient blobs -->
+        <div class="hero-blob hero-blob--blue" aria-hidden="true"></div>
+        <div class="hero-blob hero-blob--orange" aria-hidden="true"></div>
+        <div class="hero-blob hero-blob--purple" aria-hidden="true"></div>
+
         <div class="container hero-grid">
             <div>
                 <h1 class="fade-in">
@@ -2377,33 +2841,7 @@
             ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
             : false;
 
-        const animatedElements = document.querySelectorAll('.feature-block, .use-case-card, .pricing-card');
-
-        if (!prefersReducedMotion && 'IntersectionObserver' in window) {
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            entry.target.style.opacity = '1';
-                            entry.target.style.transform = 'translateY(0)';
-                        }
-                    });
-                },
-                { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-            );
-
-            animatedElements.forEach((el) => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-                observer.observe(el);
-            });
-        } else {
-            animatedElements.forEach((el) => {
-                el.style.opacity = '1';
-                el.style.transform = 'none';
-            });
-        }
+        /* Original fade-in observer removed — replaced by Enhancement 6 (staggered reveal) */
 
         // Hamburger menu toggle
         const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -2449,6 +2887,144 @@
 
             scrollToTopBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        /* ============================================================
+           ENHANCEMENT 5: Scroll progress indicator
+           ============================================================ */
+        const scrollProgressBar = document.getElementById('scroll-progress');
+        if (scrollProgressBar && !prefersReducedMotion) {
+            const updateScrollProgress = () => {
+                const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                if (scrollHeight > 0) {
+                    const progress = (window.scrollY / scrollHeight) * 100;
+                    scrollProgressBar.style.width = progress + '%';
+                }
+            };
+            window.addEventListener('scroll', updateScrollProgress, { passive: true });
+            updateScrollProgress();
+        }
+
+        /* ============================================================
+           ENHANCEMENT 6: Staggered card entrance animations
+           ============================================================ */
+        if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+            const staggerContainers = document.querySelectorAll('.feature-showcase, .use-case-grid, .pricing-grid, .integration-grid');
+            staggerContainers.forEach(container => {
+                const cards = container.children;
+                Array.from(cards).forEach((card, index) => {
+                    card.classList.add('stagger-reveal');
+                    card.style.transitionDelay = (index * 0.12) + 's';
+                });
+            });
+
+            const staggerObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                            staggerObserver.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+            );
+
+            document.querySelectorAll('.stagger-reveal').forEach(el => {
+                staggerObserver.observe(el);
+            });
+        }
+
+        /* ============================================================
+           ENHANCEMENT 7: Sequential chat bubble reveal
+           ============================================================ */
+        if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+            const chatMocks = document.querySelectorAll('.chat-mock');
+            chatMocks.forEach(mock => {
+                const bubbles = mock.querySelectorAll('.chat-bubble');
+                bubbles.forEach((bubble, i) => {
+                    bubble.classList.add('chat-bubble-animate');
+                    bubble.dataset.chatDelay = (i * 400).toString();
+                });
+            });
+
+            const chatObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            const bubbles = entry.target.querySelectorAll('.chat-bubble-animate');
+                            bubbles.forEach((bubble) => {
+                                const delay = parseInt(bubble.dataset.chatDelay || '0', 10);
+                                setTimeout(() => {
+                                    bubble.classList.add('chat-revealed');
+                                }, delay);
+                            });
+                            chatObserver.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.3 }
+            );
+
+            chatMocks.forEach(mock => chatObserver.observe(mock));
+        }
+
+        /* ============================================================
+           ENHANCEMENT 10: Nav scroll-spy active indicator
+           ============================================================ */
+        const navLinks = document.querySelectorAll('nav a[href^="#"]:not(.cta-nav)');
+        const sections = [];
+        navLinks.forEach(link => {
+            const id = link.getAttribute('href').replace('#', '');
+            const section = document.getElementById(id);
+            if (section) {
+                sections.push({ el: section, link: link, id: id });
+            }
+        });
+
+        if (sections.length > 0) {
+            const updateActiveNav = () => {
+                const scrollPos = window.scrollY + 150;
+                let activeSection = null;
+
+                for (let i = sections.length - 1; i >= 0; i--) {
+                    if (scrollPos >= sections[i].el.offsetTop) {
+                        activeSection = sections[i];
+                        break;
+                    }
+                }
+
+                navLinks.forEach(link => link.classList.remove('nav-active'));
+                if (activeSection) {
+                    activeSection.link.classList.add('nav-active');
+                }
+            };
+
+            window.addEventListener('scroll', updateActiveNav, { passive: true });
+            updateActiveNav();
+        }
+
+        /* ============================================================
+           ENHANCEMENT 11: Section label accent line on scroll
+           ============================================================ */
+        if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+            const sectionLabels = document.querySelectorAll('.section-label');
+            const labelObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('label-visible');
+                            labelObserver.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.5 }
+            );
+            sectionLabels.forEach(label => labelObserver.observe(label));
+        } else {
+            document.querySelectorAll('.section-label').forEach(label => {
+                label.classList.add('label-visible');
             });
         }
     </script>
