@@ -195,7 +195,7 @@
         }
 
         .cta-nav:hover {
-            background: var(--hover-surface);
+            background: #4a90e2;
             color: var(--text-on-accent) !important;
         }
 
@@ -443,7 +443,7 @@
         }
 
         .btn-primary:hover {
-            background: var(--hover-surface);
+            background: #4a90e2;
             transform: translateY(-1px);
             box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
         }
@@ -742,7 +742,6 @@
             padding: 1.75rem 1.25rem;
             text-align: center;
             transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-            cursor: pointer;
             min-height: 120px;
             display: flex;
             flex-direction: column;
@@ -1053,7 +1052,7 @@
             max-width: 350px;
         }
 
-        .footer-col h4 {
+        .footer-col h3 {
             font-weight: 600;
             margin-bottom: 1.5rem;
             font-size: 0.9rem;
@@ -1106,10 +1105,6 @@
                 padding: 0 1rem;
             }
 
-            nav ul {
-                display: none;
-            }
-
             .footer-grid {
                 grid-template-columns: 1fr;
             }
@@ -1152,21 +1147,205 @@
         .fade-in {
             animation: fadeInUp 0.6s ease-out;
         }
+
+        /* Skip Navigation Link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 1rem;
+            background: var(--blue);
+            color: var(--text-on-accent);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0 0 8px 8px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            z-index: 10000;
+            text-decoration: none;
+            transition: top 0.2s ease;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Hamburger Menu Button */
+        .hamburger-btn {
+            display: none;
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--darker);
+            color: var(--light);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: background-color 0.25s ease, border-color 0.25s ease;
+        }
+
+        .hamburger-btn:hover {
+            border-color: var(--blue);
+        }
+
+        .hamburger-btn svg {
+            width: 22px;
+            height: 22px;
+            display: block;
+            pointer-events: none;
+        }
+
+        @media (max-width: 640px) {
+            .hamburger-btn {
+                display: inline-flex;
+            }
+
+            nav .nav-actions > ul {
+                display: none;
+                position: absolute;
+                top: calc(100% + 0.75rem);
+                left: 1rem;
+                right: 1rem;
+                background: var(--nav-bg);
+                backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                padding: 1rem;
+                flex-direction: column;
+                gap: 0.25rem;
+                box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25);
+                z-index: 999;
+            }
+
+            nav .nav-actions > ul.nav-open {
+                display: flex;
+            }
+
+            nav .nav-actions > ul li {
+                width: 100%;
+            }
+
+            nav .nav-actions > ul a {
+                display: flex;
+                width: 100%;
+                padding: 0.75rem 1rem;
+                font-size: 0.8rem;
+                border-radius: 12px;
+            }
+
+            nav .nav-actions > ul a:hover {
+                background: rgba(96, 165, 250, 0.1);
+            }
+
+            nav .nav-actions > ul .cta-nav {
+                text-align: center;
+                justify-content: center;
+                margin-top: 0.5rem;
+            }
+
+            nav .container {
+                position: relative;
+            }
+        }
+
+        /* Scroll-to-top button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--blue);
+            color: var(--text-on-accent);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
+            z-index: 900;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-to-top:hover {
+            background: #4a90e2;
+            transform: translateY(-2px);
+        }
+
+        .scroll-to-top svg {
+            width: 22px;
+            height: 22px;
+            pointer-events: none;
+        }
+
+        /* Dead link tooltip */
+        .coming-soon-link {
+            position: relative;
+        }
+
+        .coming-soon-link::after {
+            content: 'Coming Soon';
+            position: absolute;
+            bottom: calc(100% + 4px);
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: var(--card);
+            color: var(--orange);
+            border: 1px solid var(--border);
+            padding: 0.35rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .coming-soon-link:hover::after,
+        .coming-soon-link:focus::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) scale(1);
+        }
     </style>
 </head>
 <body>
-    <nav>
+    <a href="#features" class="skip-link">Skip to main content</a>
+    <nav aria-label="Main navigation">
         <div class="container">
             <div class="logo">
                 <img src="logo_dark.svg" alt="Kozmopath" data-logo-light="logo.svg" data-logo-dark="logo_dark.svg" data-i18n-attr="alt:footer.logo.alt">
             </div>
             <div class="nav-actions">
-                <ul>
+                <ul id="nav-menu">
                     <li><a href="#features" data-i18n="nav.features">Özellikler</a></li>
                     <li><a href="#integrations" data-i18n="nav.integrations">Entegrasyonlar</a></li>
+                    <li><a href="#use-cases" data-i18n="nav.useCases">Kullanım Alanları</a></li>
                     <li><a href="#pricing" data-i18n="nav.pricing">Fiyatlandırma</a></li>
                     <li><a href="#" class="cta-nav" data-i18n="nav.cta">Ücretsiz Başla</a></li>
                 </ul>
+                <button class="hamburger-btn" id="hamburger-btn" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="nav-menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
                 <button class="lang-toggle" id="lang-toggle" type="button" data-i18n="nav.langToggle" data-i18n-attr="aria-label:nav.langToggleAria" aria-label="Dili İngilizceye çevir">EN</button>
                 <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Açık temaya geç" data-i18n-attr="aria-label:theme.toggleToLight" aria-pressed="false">
                     <!-- Sun icon (shown in dark mode, click to go light) -->
@@ -1190,6 +1369,7 @@
         </div>
     </nav>
 
+    <main>
     <section class="hero">
         <div class="container hero-grid">
             <div>
@@ -1239,7 +1419,7 @@
 
             <div class="feature-showcase">
                 <div class="feature-block tone-blue">
-                    <span class="feature-number">01</span>
+                    <span class="feature-number" aria-hidden="true">01</span>
                     <h3 data-i18n="features.order.title">Müşteri: "Siparişim nerede?"</h3>
                     <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.order.desc">
                         Yapay zeka Shopify/ikas mağazanızı kontrol eder, #4521 siparişini bulur, DHL ile yolda olduğunu görür ve takip bilgisini getirir.
@@ -1257,7 +1437,7 @@
 
                 <div class="two-col">
                     <div class="feature-block tone-orange">
-                        <span class="feature-number">02</span>
+                        <span class="feature-number" aria-hidden="true">02</span>
                         <h3 data-i18n="features.reservation.title">Restoran rezervasyonu</h3>
                         <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.reservation.desc">
                             Müşteri "yarın 20:00'de 4 kişilik masa" yazar
@@ -1274,7 +1454,7 @@
                     </div>
 
                     <div class="feature-block tone-blue">
-                        <span class="feature-number">03</span>
+                        <span class="feature-number" aria-hidden="true">03</span>
                         <h3 data-i18n="features.appointment.title">Hastane randevusu</h3>
                         <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.appointment.desc">
                             "Gelecek hafta Dr. Yılmaz'dan randevu almak istiyorum"
@@ -1292,7 +1472,7 @@
                 </div>
 
                 <div class="feature-block tone-orange">
-                    <span class="feature-number">04</span>
+                    <span class="feature-number" aria-hidden="true">04</span>
                     <h3 data-i18n="features.escalation.title">Ne zaman duracağını bilir</h3>
                     <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.escalation.desc">
                         Müşteri: "Hasarlı ürün geldi ve bu durumdan çok rahatsızım"
@@ -1317,7 +1497,7 @@
 
                 <div class="two-col">
                     <div class="feature-block tone-blue">
-                        <span class="feature-number">05</span>
+                        <span class="feature-number" aria-hidden="true">05</span>
                         <h3 data-i18n="features.dashboard.title">Her şey tek yerde</h3>
                         <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.dashboard.desc">
                             Ekibiniz tüm konuşmaları—WhatsApp, e-posta, canlı sohbet—birleşik CRM panelimiz Raven\'da görür.
@@ -1331,7 +1511,7 @@
                     </div>
 
                     <div class="feature-block tone-orange">
-                        <span class="feature-number">06</span>
+                        <span class="feature-number" aria-hidden="true">06</span>
                         <h3 data-i18n="features.workflows.title">İş akışlarınız, bizimkiler değil</h3>
                         <p style="color: var(--gray); margin-bottom: 1rem;" data-i18n="features.workflows.desc">
                             İstediğiniz otomasyonu oluşturun. Kod gerekmez. Örnekler:
@@ -1359,7 +1539,7 @@
             </div>
 
             <div class="integration-category">
-                <span class="integration-category-label" data-i18n="integrations.channels">İletişim Kanalları</span>
+                <h3 class="integration-category-label" data-i18n="integrations.channels">İletişim Kanalları</h3>
                 <div class="integration-grid">
                     <div class="integration-item tone-blue">
                         <div class="integration-icon">
@@ -1389,7 +1569,7 @@
             </div>
 
             <div class="integration-category">
-                <span class="integration-category-label" data-i18n="integrations.platforms">Platformlar & Sistemler</span>
+                <h3 class="integration-category-label" data-i18n="integrations.platforms">Platformlar & Sistemler</h3>
                 <div class="integration-grid">
                     <div class="integration-item tone-blue">
                         <div class="integration-icon">
@@ -1443,7 +1623,7 @@
             </div>
         </div>
     </section>
-    <section class="use-cases">
+    <section class="use-cases" id="use-cases">
         <div class="container">
             <div class="section-intro">
                 <span class="section-label" data-i18n="useCases.label">Kullanım Alanları</span>
@@ -1576,6 +1756,13 @@
             </div>
         </div>
     </section>
+    </main>
+
+    <button class="scroll-to-top" id="scroll-to-top" type="button" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
 
     <footer>
         <div class="container">
@@ -1585,29 +1772,29 @@
                     <p data-i18n="footer.desc">Gerçekten çalışan yapay zeka destekli müşteri hizmeti. Müşterilerine önem veren işletmeler için.</p>
                 </div>
                 <div class="footer-col">
-                    <h4 data-i18n="footer.product.title">Ürün</h4>
+                    <h3 data-i18n="footer.product.title">Ürün</h3>
                     <ul>
                         <li><a href="#features" data-i18n="footer.product.features">Özellikler</a></li>
                         <li><a href="#integrations" data-i18n="footer.product.integrations">Entegrasyonlar</a></li>
                         <li><a href="#pricing" data-i18n="footer.product.pricing">Fiyatlandırma</a></li>
-                        <li><a href="#" data-i18n="footer.product.docs">Dokümantasyon</a></li>
+                        <li><a href="#" class="coming-soon-link" data-i18n="footer.product.docs">Dokümantasyon</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4 data-i18n="footer.company.title">Şirket</h4>
+                    <h3 data-i18n="footer.company.title">Şirket</h3>
                     <ul>
-                        <li><a href="#" data-i18n="footer.company.about">Hakkında</a></li>
-                        <li><a href="#" data-i18n="footer.company.blog">Blog</a></li>
-                        <li><a href="#" data-i18n="footer.company.careers">Kariyer</a></li>
-                        <li><a href="#" data-i18n="footer.company.contact">İletişim</a></li>
+                        <li><a href="#" class="coming-soon-link" data-i18n="footer.company.about">Hakkında</a></li>
+                        <li><a href="#" class="coming-soon-link" data-i18n="footer.company.blog">Blog</a></li>
+                        <li><a href="#" class="coming-soon-link" data-i18n="footer.company.careers">Kariyer</a></li>
+                        <li><a href="#" class="coming-soon-link" data-i18n="footer.company.contact">İletişim</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4 data-i18n="footer.legal.title">Yasal</h4>
+                    <h3 data-i18n="footer.legal.title">Yasal</h3>
                     <ul>
-                        <li><a href="#" data-i18n="footer.legal.privacy">Gizlilik</a></li>
-                        <li><a href="#" data-i18n="footer.legal.terms">Şartlar</a></li>
-                        <li><a href="#" data-i18n="footer.legal.security">Güvenlik</a></li>
+                        <li><a href="#" class="coming-soon-link" data-i18n="footer.legal.privacy">Gizlilik</a></li>
+                        <li><a href="#" class="coming-soon-link" data-i18n="footer.legal.terms">Şartlar</a></li>
+                        <li><a href="#" class="coming-soon-link" data-i18n="footer.legal.security">Güvenlik</a></li>
                     </ul>
                 </div>
             </div>
@@ -1648,6 +1835,7 @@
                 nav: {
                     features: 'Özellikler',
                     integrations: 'Entegrasyonlar',
+                    useCases: 'Kullanım Alanları',
                     pricing: 'Fiyatlandırma',
                     cta: 'Ücretsiz Başla',
                     langToggle: 'EN',
@@ -1863,6 +2051,7 @@
                 nav: {
                     features: 'What It Does',
                     integrations: 'Integrations',
+                    useCases: 'Use Cases',
                     pricing: 'Pricing',
                     cta: 'Start Free Trial',
                     langToggle: 'TR',
@@ -2213,6 +2402,53 @@
             animatedElements.forEach((el) => {
                 el.style.opacity = '1';
                 el.style.transform = 'none';
+            });
+        }
+
+        // Hamburger menu toggle
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const navMenu = document.getElementById('nav-menu');
+
+        if (hamburgerBtn && navMenu) {
+            hamburgerBtn.addEventListener('click', () => {
+                const isOpen = navMenu.classList.toggle('nav-open');
+                hamburgerBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                hamburgerBtn.setAttribute('aria-label', isOpen ? 'Menüyü kapat' : 'Menüyü aç');
+            });
+
+            // Close menu when a nav link is clicked
+            navMenu.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('nav-open');
+                    hamburgerBtn.setAttribute('aria-expanded', 'false');
+                    hamburgerBtn.setAttribute('aria-label', 'Menüyü aç');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!hamburgerBtn.contains(event.target) && !navMenu.contains(event.target)) {
+                    navMenu.classList.remove('nav-open');
+                    hamburgerBtn.setAttribute('aria-expanded', 'false');
+                    hamburgerBtn.setAttribute('aria-label', 'Menüyü aç');
+                }
+            });
+        }
+
+        // Scroll-to-top button
+        const scrollToTopBtn = document.getElementById('scroll-to-top');
+
+        if (scrollToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 400) {
+                    scrollToTopBtn.classList.add('visible');
+                } else {
+                    scrollToTopBtn.classList.remove('visible');
+                }
+            }, { passive: true });
+
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         }
     </script>
