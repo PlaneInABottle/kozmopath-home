@@ -35,15 +35,15 @@
             --gray: #b3b3b3;
             --border: #1f1f1f;
             --nav-bg: rgba(7, 7, 7, 0.82);
-            --text-on-accent: #0a0a0a;
+            --text-on-accent: #ffffff;
             --hover-surface: #f5f5f5;
             --card: #0f0f0f;
             --code-surface: rgba(7, 7, 7, 0.7);
         }
 
         [data-theme="light"] {
-            --dark: #f8fafc;
-            --darker: #ffffff;
+            --dark: #f6f5f2;
+            --darker: #faf9f7;
             --light: #0b0b0b;
             --gray: #475569;
             --border: #e2e8f0;
@@ -96,6 +96,23 @@
                 linear-gradient(90deg, rgba(10, 10, 10, 0.06) 1px, transparent 1px),
                 radial-gradient(circle at 20% 20%, rgba(96, 165, 250, 0.1), transparent 45%),
                 radial-gradient(circle at 80% 30%, rgba(255, 107, 53, 0.08), transparent 40%);
+            mix-blend-mode: multiply;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px 256px;
+        }
+
+        [data-theme="light"] body::after {
+            opacity: 0.04;
             mix-blend-mode: multiply;
         }
 
@@ -463,6 +480,7 @@
         .what-it-does {
             padding: 6.5rem 0;
             border-top: 1px solid var(--border);
+            position: relative;
         }
 
         .section-intro {
@@ -695,6 +713,24 @@
             padding: 9rem 0;
             border-top: 1px solid var(--border);
             background: var(--darker);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .integrations::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+            border-radius: 50%;
+        }
+
+        [data-theme="light"] .integrations::after {
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.08) 0%, transparent 70%);
         }
 
         .integrations .section-intro {
@@ -833,6 +869,29 @@
         .use-cases {
             padding: 9rem 0;
             border-top: 1px solid var(--border);
+            position: relative;
+        }
+
+        .use-cases::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg,
+                rgba(96, 165, 250, 0.02) 0%,
+                transparent 30%,
+                transparent 70%,
+                rgba(255, 107, 53, 0.02) 100%
+            );
+            pointer-events: none;
+        }
+
+        [data-theme="light"] .use-cases::before {
+            background: linear-gradient(180deg,
+                rgba(96, 165, 250, 0.03) 0%,
+                transparent 30%,
+                transparent 70%,
+                rgba(255, 107, 53, 0.03) 100%
+            );
         }
 
         .use-case-grid {
@@ -890,6 +949,24 @@
             padding: 9rem 0;
             border-top: 1px solid var(--border);
             background: var(--darker);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing::after {
+            content: '';
+            position: absolute;
+            bottom: 10%;
+            left: -8%;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            border-radius: 50%;
+        }
+
+        [data-theme="light"] .pricing::after {
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.07) 0%, transparent 70%);
         }
 
         .pricing-grid {
@@ -1030,8 +1107,7 @@
         /* Footer */
         footer {
             padding: 5rem 0 2.5rem;
-            border-top: 1px solid var(--border);
-            background: var(--darker);
+            border-top: none;
         }
 
         .footer-grid {
@@ -1395,7 +1471,7 @@
            ENHANCEMENT 2: CTA button gradient + glow
            ============================================================ */
         .btn-primary {
-            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
             color: var(--text-on-accent);
             position: relative;
             z-index: 1;
@@ -1414,7 +1490,7 @@
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 50%, #3b82f6 100%);
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(59, 130, 246, 0.35), 0 0 60px rgba(96, 165, 250, 0.15);
         }
@@ -1619,6 +1695,20 @@
                 0 20px 50px rgba(0, 0, 0, 0.07);
         }
 
+        /* Light mode card gradients for depth */
+        [data-theme="light"] .feature-block {
+            background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+        }
+        [data-theme="light"] .use-case-card {
+            background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+        }
+        [data-theme="light"] .pricing-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
+        }
+        [data-theme="light"] .integration-item {
+            background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+        }
+
         /* ============================================================
            ENHANCEMENT 9: Checkmark icons in pricing
            ============================================================ */
@@ -1778,6 +1868,54 @@
             .use-case-card::before { transform: scaleX(1) !important; transition: none !important; }
             .scroll-progress { display: none !important; }
         }
+        /* ============================================================
+           ENHANCEMENT 14: Gradient section dividers
+           ============================================================ */
+        .what-it-does,
+        .use-cases,
+        .integrations,
+        .pricing {
+            border-top: none;
+        }
+
+        .what-it-does::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                var(--border) 20%,
+                rgba(96, 165, 250, 0.3) 50%,
+                var(--border) 80%,
+                transparent 100%
+            );
+            pointer-events: none;
+        }
+
+        [data-theme="light"] .what-it-does::after {
+            background: linear-gradient(90deg,
+                transparent 0%,
+                var(--border) 20%,
+                rgba(96, 165, 250, 0.4) 50%,
+                var(--border) 80%,
+                transparent 100%
+            );
+        }
+
+        /* ============================================================
+           ENHANCEMENT 15: Footer gradient background
+           ============================================================ */
+        footer {
+            background: linear-gradient(180deg, var(--darker) 0%, rgba(7, 7, 7, 0.95) 100%);
+        }
+
+        [data-theme="light"] footer {
+            background: linear-gradient(180deg, var(--darker) 0%, #f0efec 100%);
+        }
+
     </style>
 </head>
 <body>
