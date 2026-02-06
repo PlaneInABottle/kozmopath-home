@@ -147,7 +147,7 @@
         /* Nav */
         nav {
             position: sticky;
-            top: 1rem;
+            top: 0;
             background: transparent;
             border-bottom: none;
             padding: 0.6rem 0;
@@ -301,7 +301,7 @@
 
         /* Hero */
         .hero {
-            padding: 7.5rem 0 5rem;
+            padding: 3rem 0 5rem;
             position: relative;
             overflow: hidden;
         }
@@ -1945,11 +1945,11 @@
 
         .hero-vignette {
             position: relative;
-            transform: rotate(-2deg);
+            transform: none;
         }
 
         .hero-vignette .hero-card:last-child {
-            transform: translateX(-40px) translateY(20px) rotate(1deg);
+            transform: none;
         }
 
         @media (max-width: 968px) {
@@ -1957,14 +1957,6 @@
                 width: 100%;
                 clip-path: polygon(0 60%, 100% 40%, 100% 100%, 0% 100%);
                 opacity: 0.5;
-            }
-
-            .hero-vignette {
-                transform: rotate(0deg);
-            }
-
-            .hero-vignette .hero-card:last-child {
-                transform: none;
             }
         }
 
@@ -2068,7 +2060,13 @@
             min-width: 140px;
             min-height: auto;
             flex-direction: row;
+            align-items: center;
             gap: 0.75rem;
+        }
+
+        .integration-marquee-wrapper .integration-item h4 {
+            margin-top: 0;
+            line-height: 32px;
         }
 
         .integration-marquee-wrapper .integration-icon {
@@ -2238,8 +2236,6 @@
         /* Ensure creative layout animations respect prefers-reduced-motion */
         @media (prefers-reduced-motion: reduce) {
             .hero::after { clip-path: none; }
-            .hero-vignette { transform: none !important; }
-            .hero-vignette .hero-card:last-child { transform: none !important; }
             .use-case-card:nth-child(1),
             .use-case-card:nth-child(2),
             .use-case-card:nth-child(3),
@@ -2511,7 +2507,12 @@
                     </div>
                     <div class="integration-item tone-orange">
                         <div class="integration-icon">
-                            <img src="assets/channels/email.png" alt="Email" data-i18n-attr="alt:integrations.email.alt">
+                            <!-- E-posta / Email icon -->
+                            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="#ea4335"/>
+                                <path d="M7 11.5L16 17l9-5.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <rect x="7" y="10" width="18" height="13" rx="2" stroke="white" stroke-width="1.8" fill="none"/>
+                            </svg>
                         </div>
                         <h4 data-i18n="integrations.email.label">E-posta</h4>
                     </div>
@@ -2535,9 +2536,12 @@
                     </div>
                     <div class="integration-item tone-orange">
                         <div class="integration-icon">
-                            <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="120" height="40" rx="8" fill="#1a1a1a"/>
-                                <text x="60" y="26" font-family="DM Sans, sans-serif" font-size="18" font-weight="700" fill="#60a5fa" text-anchor="middle">ikas</text>
+                            <!-- ikas - Official brand icon (lightning bolt mark from ikas.com) -->
+                            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="#1a2745"/>
+                                <g transform="translate(5, 3) scale(0.96)">
+                                    <path d="M21.8913 9.40464H11.1187C11.0821 9.40464 11.0469 9.39014 11.021 9.36432C10.995 9.3385 10.9804 9.30346 10.9804 9.26691V1.18496C10.9804 0.752555 10.4383 0.556688 10.1607 0.889038L-0.286989 13.3951C-0.343343 13.4626 -0.379245 13.5448 -0.390492 13.632C-0.401739 13.7191 -0.387866 13.8077 -0.350497 13.8872C-0.313128 13.9668 -0.253809 14.0341 -0.179483 14.0813C-0.105157 14.1285 -0.0188985 14.1536 0.0691963 14.1536H10.8423C10.8789 14.1537 10.9141 14.1682 10.94 14.1941C10.9658 14.22 10.9804 14.255 10.9804 14.2916V22.3735C10.9804 22.8062 11.5227 23.0021 11.8003 22.6697L22.248 10.1637C22.3045 10.0961 22.3406 10.0138 22.3519 9.92656C22.3632 9.83927 22.3493 9.75058 22.3119 9.67089C22.2744 9.5912 22.215 9.52382 22.1405 9.47666C22.066 9.4295 21.9795 9.40452 21.8913 9.40464Z" fill="white"/>
+                                </g>
                             </svg>
                         </div>
                         <h4 data-i18n="integrations.ikas.label">ikas</h4>
@@ -2551,7 +2555,12 @@
                     </div>
                     <div class="integration-item tone-orange" aria-hidden="true">
                         <div class="integration-icon">
-                            <img src="assets/channels/email.png" alt="Email">
+                            <!-- E-posta / Email icon -->
+                            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="#ea4335"/>
+                                <path d="M7 11.5L16 17l9-5.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <rect x="7" y="10" width="18" height="13" rx="2" stroke="white" stroke-width="1.8" fill="none"/>
+                            </svg>
                         </div>
                         <h4>E-posta</h4>
                     </div>
@@ -2575,9 +2584,12 @@
                     </div>
                     <div class="integration-item tone-orange" aria-hidden="true">
                         <div class="integration-icon">
-                            <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="120" height="40" rx="8" fill="#1a1a1a"/>
-                                <text x="60" y="26" font-family="DM Sans, sans-serif" font-size="18" font-weight="700" fill="#60a5fa" text-anchor="middle">ikas</text>
+                            <!-- ikas - Official brand icon (lightning bolt mark from ikas.com) -->
+                            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="#1a2745"/>
+                                <g transform="translate(5, 3) scale(0.96)">
+                                    <path d="M21.8913 9.40464H11.1187C11.0821 9.40464 11.0469 9.39014 11.021 9.36432C10.995 9.3385 10.9804 9.30346 10.9804 9.26691V1.18496C10.9804 0.752555 10.4383 0.556688 10.1607 0.889038L-0.286989 13.3951C-0.343343 13.4626 -0.379245 13.5448 -0.390492 13.632C-0.401739 13.7191 -0.387866 13.8077 -0.350497 13.8872C-0.313128 13.9668 -0.253809 14.0341 -0.179483 14.0813C-0.105157 14.1285 -0.0188985 14.1536 0.0691963 14.1536H10.8423C10.8789 14.1537 10.9141 14.1682 10.94 14.1941C10.9658 14.22 10.9804 14.255 10.9804 14.2916V22.3735C10.9804 22.8062 11.5227 23.0021 11.8003 22.6697L22.248 10.1637C22.3045 10.0961 22.3406 10.0138 22.3519 9.92656C22.3632 9.83927 22.3493 9.75058 22.3119 9.67089C22.2744 9.5912 22.215 9.52382 22.1405 9.47666C22.066 9.4295 21.9795 9.40452 21.8913 9.40464Z" fill="white"/>
+                                </g>
                             </svg>
                         </div>
                         <h4>ikas</h4>
@@ -2588,88 +2600,98 @@
                     <!-- Original items -->
                     <div class="integration-item tone-blue">
                         <div class="integration-icon">
-                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="64" height="64" rx="12" fill="#60a5fa"/>
-                                <path d="M20 16h24v4H20v-4zm0 8h24v4H20v-4zm0 8h16v4H20v-4z" fill="white"/>
-                                <circle cx="46" cy="44" r="8" fill="#ff6b35"/>
-                                <path d="M46 40v8M42 44h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <!-- Randevu / Booking - Calendar icon -->
+                            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="#60a5fa"/>
+                                <rect x="6" y="9" width="20" height="17" rx="2.5" stroke="white" stroke-width="1.8" fill="none"/>
+                                <path d="M6 14h20" stroke="white" stroke-width="1.8"/>
+                                <path d="M11 6.5v4M21 6.5v4" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                                <circle cx="12" cy="19.5" r="1.5" fill="white"/>
+                                <circle cx="16" cy="19.5" r="1.5" fill="white"/>
+                                <circle cx="20" cy="19.5" r="1.5" fill="white"/>
+                                <circle cx="12" cy="23" r="1" fill="white" opacity="0.6"/>
+                                <circle cx="16" cy="23" r="1" fill="white" opacity="0.6"/>
                             </svg>
                         </div>
                         <h4 data-i18n="integrations.booking.label">Randevu</h4>
                     </div>
                     <div class="integration-item tone-orange">
                         <div class="integration-icon">
-                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="64" height="64" rx="12" fill="#ff6b35"/>
-                                <path d="M32 16l8 8-8 8-8-8 8-8z" fill="white"/>
-                                <rect x="24" y="36" width="16" height="12" rx="2" fill="white"/>
-                                <circle cx="32" cy="26" r="3" fill="#ff6b35"/>
+                            <!-- Hastane - Medical clipboard with cross -->
+                            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="#ff6b35"/>
+                                <rect x="8" y="5" width="16" height="22" rx="2" stroke="white" stroke-width="1.8" fill="none"/>
+                                <path d="M14 10h4M16 8v4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M11 16h10M11 19.5h7M11 23h5" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
                             </svg>
                         </div>
-                        <h4 data-i18n="integrations.emr.label">Hastane EMR</h4>
+                        <h4 data-i18n="integrations.emr.label">Hastane</h4>
                     </div>
                     <div class="integration-item tone-blue">
                         <div class="integration-icon">
-                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="64" height="64" rx="12" fill="#60a5fa"/>
-                                <circle cx="32" cy="24" r="8" fill="white"/>
-                                <path d="M20 48c0-6.627 5.373-12 12-12s12 5.373 12 12v4H20v-4z" fill="white"/>
-                                <path d="M28 24h8M32 20v8" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+                            <!-- Restoran - Plate with fork & knife -->
+                            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="#60a5fa"/>
+                                <!-- Plate -->
+                                <circle cx="16" cy="16" r="8" stroke="white" stroke-width="1.4" fill="none"/>
+                                <circle cx="16" cy="16" r="4.5" stroke="white" stroke-width="0.8" fill="none" opacity="0.5"/>
+                                <!-- Fork (left) -->
+                                <path d="M7.5 7v3c0 1.2 0.8 2 1.5 2v12" stroke="white" stroke-width="1.3" stroke-linecap="round"/>
+                                <path d="M7 7v2.5M8.5 7v2.5M10 7v2.5" stroke="white" stroke-width="0.8" stroke-linecap="round"/>
+                                <!-- Knife (right) -->
+                                <path d="M24 7c0 0-1.8 1-1.8 3.5s1.8 2 1.8 2V24" stroke="white" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+                                <!-- Spoon (center-right) -->
+                                <ellipse cx="21" cy="9" rx="1.2" ry="2.2" stroke="white" stroke-width="1" fill="none"/>
+                                <path d="M21 11.2V24" stroke="white" stroke-width="1" stroke-linecap="round"/>
                             </svg>
                         </div>
-                        <h4 data-i18n="integrations.pos.label">Restoran POS</h4>
-                    </div>
-                    <div class="integration-item tone-orange">
-                        <div class="integration-icon">
-                            <img src="assets/channels/whatsapp.png" alt="WhatsApp">
-                        </div>
-                        <h4>WhatsApp</h4>
-                    </div>
-                    <div class="integration-item tone-blue">
-                        <div class="integration-icon">
-                            <img src="assets/channels/email.png" alt="Email">
-                        </div>
-                        <h4>E-posta</h4>
-                    </div>
-                    <div class="integration-item tone-orange">
-                        <div class="integration-icon">
-                            <img src="assets/integrations/slack.png" alt="Slack">
-                        </div>
-                        <h4>Slack</h4>
+                        <h4 data-i18n="integrations.pos.label">Restoran</h4>
                     </div>
                     <!-- Duplicated items for seamless loop -->
                     <div class="integration-item tone-blue" aria-hidden="true">
                         <div class="integration-icon">
-                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="64" height="64" rx="12" fill="#60a5fa"/>
-                                <path d="M20 16h24v4H20v-4zm0 8h24v4H20v-4zm0 8h16v4H20v-4z" fill="white"/>
-                                <circle cx="46" cy="44" r="8" fill="#ff6b35"/>
-                                <path d="M46 40v8M42 44h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <!-- Randevu / Booking - Calendar icon -->
+                            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="#60a5fa"/>
+                                <rect x="6" y="9" width="20" height="17" rx="2.5" stroke="white" stroke-width="1.8" fill="none"/>
+                                <path d="M6 14h20" stroke="white" stroke-width="1.8"/>
+                                <path d="M11 6.5v4M21 6.5v4" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                                <circle cx="12" cy="19.5" r="1.5" fill="white"/>
+                                <circle cx="16" cy="19.5" r="1.5" fill="white"/>
+                                <circle cx="20" cy="19.5" r="1.5" fill="white"/>
+                                <circle cx="12" cy="23" r="1" fill="white" opacity="0.6"/>
+                                <circle cx="16" cy="23" r="1" fill="white" opacity="0.6"/>
                             </svg>
                         </div>
                         <h4>Randevu</h4>
                     </div>
                     <div class="integration-item tone-orange" aria-hidden="true">
                         <div class="integration-icon">
-                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="64" height="64" rx="12" fill="#ff6b35"/>
-                                <path d="M32 16l8 8-8 8-8-8 8-8z" fill="white"/>
-                                <rect x="24" y="36" width="16" height="12" rx="2" fill="white"/>
-                                <circle cx="32" cy="26" r="3" fill="#ff6b35"/>
+                            <!-- Hastane - Medical clipboard with cross -->
+                            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="#ff6b35"/>
+                                <rect x="8" y="5" width="16" height="22" rx="2" stroke="white" stroke-width="1.8" fill="none"/>
+                                <path d="M14 10h4M16 8v4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M11 16h10M11 19.5h7M11 23h5" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
                             </svg>
                         </div>
-                        <h4>Hastane EMR</h4>
+                        <h4>Hastane</h4>
                     </div>
                     <div class="integration-item tone-blue" aria-hidden="true">
                         <div class="integration-icon">
-                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="64" height="64" rx="12" fill="#60a5fa"/>
-                                <circle cx="32" cy="24" r="8" fill="white"/>
-                                <path d="M20 48c0-6.627 5.373-12 12-12s12 5.373 12 12v4H20v-4z" fill="white"/>
-                                <path d="M28 24h8M32 20v8" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+                            <!-- Restoran - Plate with fork, knife & spoon -->
+                            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="#60a5fa"/>
+                                <circle cx="16" cy="16" r="8" stroke="white" stroke-width="1.4" fill="none"/>
+                                <circle cx="16" cy="16" r="4.5" stroke="white" stroke-width="0.8" fill="none" opacity="0.5"/>
+                                <path d="M7.5 7v3c0 1.2 0.8 2 1.5 2v12" stroke="white" stroke-width="1.3" stroke-linecap="round"/>
+                                <path d="M7 7v2.5M8.5 7v2.5M10 7v2.5" stroke="white" stroke-width="0.8" stroke-linecap="round"/>
+                                <path d="M24 7c0 0-1.8 1-1.8 3.5s1.8 2 1.8 2V24" stroke="white" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+                                <ellipse cx="21" cy="9" rx="1.2" ry="2.2" stroke="white" stroke-width="1" fill="none"/>
+                                <path d="M21 11.2V24" stroke="white" stroke-width="1" stroke-linecap="round"/>
                             </svg>
                         </div>
-                        <h4>Restoran POS</h4>
+                        <h4>Restoran</h4>
                     </div>
                     <div class="integration-item tone-orange" aria-hidden="true">
                         <div class="integration-icon">
@@ -2679,7 +2701,12 @@
                     </div>
                     <div class="integration-item tone-blue" aria-hidden="true">
                         <div class="integration-icon">
-                            <img src="assets/channels/email.png" alt="Email">
+                            <!-- E-posta / Email icon -->
+                            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="#ea4335"/>
+                                <path d="M7 11.5L16 17l9-5.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <rect x="7" y="10" width="18" height="13" rx="2" stroke="white" stroke-width="1.8" fill="none"/>
+                            </svg>
                         </div>
                         <h4>E-posta</h4>
                     </div>
@@ -3004,8 +3031,8 @@
                     shopify: { label: 'Shopify', alt: 'Shopify' },
                     ikas: { label: 'ikas' },
                     booking: { label: 'Randevu Sistemleri' },
-                    emr: { label: 'Hastane EMR' },
-                    pos: { label: 'Restoran POS' },
+                    emr: { label: 'Hastane' },
+                    pos: { label: 'Restoran' },
                     slack: { label: 'Slack', alt: 'Slack' }
                 },
                 useCases: {
@@ -3220,8 +3247,8 @@
                     shopify: { label: 'Shopify', alt: 'Shopify' },
                     ikas: { label: 'ikas' },
                     booking: { label: 'Booking Systems' },
-                    emr: { label: 'Hospital EMR' },
-                    pos: { label: 'Restaurant POS' },
+                    emr: { label: 'Hospital' },
+                    pos: { label: 'Restaurant' },
                     slack: { label: 'Slack', alt: 'Slack' }
                 },
                 useCases: {
